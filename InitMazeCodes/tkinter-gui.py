@@ -245,10 +245,10 @@ Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
 # Keyboard Binding
 # turtle.listen()
-turtle.onkey(player.go_left, 'Left')
-turtle.onkey(player.go_right, 'Right')
-turtle.onkey(player.go_up, 'Up')
-turtle.onkey(player.go_down, 'Down')
+# turtle.onkey(player.go_left, 'Left')
+# turtle.onkey(player.go_right, 'Right')
+# turtle.onkey(player.go_up, 'Up')
+# turtle.onkey(player.go_down, 'Down')
 
 # Turn off screen updates
 # window.tracer(0)

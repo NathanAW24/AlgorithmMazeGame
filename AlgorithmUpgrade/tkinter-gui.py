@@ -117,9 +117,19 @@ level_2 = [
     "00000"
 ]
 
+level_3 = [
+    "00000",
+    "0P  0",
+    "000 0",
+    "000T0",
+    "00000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
+levels.append(level_3)
+print(levels)
 
 # Add treasures list
 treasures = []
@@ -159,17 +169,19 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 1
+current_level_idx = 0
 
 
 def next_level(current_level_idx):
-    print('current level', current_level_idx, 'len levels', len(levels))
-    if current_level_idx+1 < len(levels):
-        current_level_idx += 1
-        print('current level now', current_level_idx)
+    print('current level idx', current_level_idx, 'len levels', len(levels))
+    if current_level_idx < len(levels):
+        print('current level idx now', current_level_idx)
+        setup_maze(levels[current_level_idx])
+        # current_level_idx += 1
     else:
         current_level_idx = 0
-    setup_maze(levels[current_level_idx])
+        setup_maze(levels[current_level_idx])
+        # current_level_idx += 1
 
 
 def Button_click():
@@ -183,7 +195,7 @@ Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
-    master=window, text="Next Level", command=next_level(current_level_idx))
+    master=window, text="Next Level", command=lambda: next_level(current_level_idx))
 Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 

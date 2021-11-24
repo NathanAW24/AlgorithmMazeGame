@@ -229,7 +229,7 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 1
+current_level_idx = 0
 
 
 def next_level(current_level_idx):

@@ -32,46 +32,46 @@ class Player(turtle.RawTurtle):
         self.penup()
         self.speed(0)
         self.gold = 0
+        # Create commands list
+        self.commands = ['f','tl','tr']
 
-    def go_up(self):
+    def forward(self):
+        self.commands.append('f')
+        print(self.commands)
         # Calculate spot to move to
-        move_to_x = self.xcor()
-        move_to_y = self.ycor() + 24
+        direction = self.heading()
+        print(direction)
+        if (direction == 0):
+            move_to_x = self.xcor() + 24
+            move_to_y = self.ycor()
+        elif (direction == 90):
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() + 24
+        elif (direction == 180):
+            move_to_x = self.xcor() - 24
+            move_to_y = self.ycor()
+        elif (direction == 270):
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() - 24
+        elif (direction == 360):
+            direction = 0
+            move_to_x = self.xcor() + 24
+            move_to_y = self.ycor()
+        else:
+            print('direction is weird')
 
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
-            self.setheading(90)
 
-    def go_down(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor()
-        move_to_y = self.ycor() - 24
+    def turn_left(self):
+        self.commands.append('tl')
+        self.left(90)
+        
 
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(270)
-
-    def go_left(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor() - 24
-        move_to_y = self.ycor()
-
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(180)
-
-    def go_right(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor() + 24
-        move_to_y = self.ycor()
-
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(0)
+    def turn_right(self):
+        self.commands.append('tr')
+        self.right(90)
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -105,30 +105,30 @@ levels = []
 # Define First Level
 level_1 = [
     "0000000000000000000000000",
-    "0P 0000000          00000",
-    "0  0000000  000000  00000",
-    "0       00  000000  00000",
-    "0       00  000        00",
-    "000000  00  000        00",
-    "000000  00  000000  00000",
-    "000000  00    0000  00000",
-    "0  000        0000T 00000",
-    "0  000  00000000000000000",
-    "0         000000000000000",
-    "0                00000000",
-    "000000000000     00000  0",
-    "000000000000000  00000  0",
-    "000  0000000000         0",
-    "000                     0",
-    "000         0000000000000",
-    "0000000000  0000000000000",
-    "0000000000              0",
-    "00   00000              0",
-    "00   0000000000000  00000",
-    "00     00000000000  00000",
-    "00          0000        0",
-    "0000                    0",
-    "0000000000000000000000000"
+    "0P 0000000    T     00000",
+    # "0  0000000  000000  00000",
+    # "0       00  000000  00000",
+    # "0       00  000        00",
+    # "000000  00  000        00",
+    # "000000  00  000000  00000",
+    # "000000  00    0000  00000",
+    # "0  000        0000  00000",
+    # "0  000  00000000000000000",
+    # "0         000000000000000",
+    # "0                00000000",
+    # "000000000000     00000  0",
+    # "000000000000000  00000  0",
+    # "000  0000000000         0",
+    # "000                     0",
+    # "000         0000000000000",
+    # "0000000000  0000000000000",
+    # "0000000000              0",
+    # "00   00000              0",
+    # "00   0000000000000  00000",
+    # "00     00000000000  00000",
+    # "00          0000        0",
+    # "0000                    0",
+    # "0000000000000000000000000"
 ]
 
 level_2 = [
@@ -230,32 +230,29 @@ Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go left", command=player.go_left)
+    master=window, text="Turn left", command=player.turn_left)
 Board_Button.config(bg="blue", fg="black")
-Board_Button.grid(padx=2, pady=2, row=3, column=11, sticky='nsew')
+Board_Button.grid(padx=2, pady=2, row=2, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go right", command=player.go_right)
+    master=window, text="Turn right", command=player.turn_right)
 Board_Button.config(bg="red", fg="black")
-Board_Button.grid(padx=2, pady=2, row=3, column=13, sticky='nsew')
+Board_Button.grid(padx=2, pady=2, row=2, column=13, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go up", command=player.go_up)
+    master=window, text="Forward", command=player.forward)
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-Board_Button = tkinter.Button(
-    master=window, text="Go down", command=player.go_down)
-Board_Button.config(bg="green", fg="black")
-Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
+# Board_Button = tkinter.Button(
+#     master=window, text="Go down", command=player.go_down)
+# Board_Button.config(bg="green", fg="black")
+# Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
-
-# Keyboard Binding
-# turtle.listen()
-# turtle.onkey(player.go_left, 'Left')
-# turtle.onkey(player.go_right, 'Right')
-# turtle.onkey(player.go_up, 'Up')
-# turtle.onkey(player.go_down, 'Down')
+commandstext = tkinter.Text(master = window)
+for x in range(len(player.commands)):
+    commandstext.insert('1.0', player.commands[len(player.commands)-x-1] + '\n')
+commandstext.grid(padx=2, pady= 2, row=5, column=14)
 
 # Turn off screen updates
 # window.tracer(0)

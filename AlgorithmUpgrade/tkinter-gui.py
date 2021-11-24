@@ -142,11 +142,38 @@ level_4 = [
     "0000000"
 ]
 
+level_5 = [
+    "0000000",
+    "0P  000",
+    "000 000",
+    "000  T0",
+    "0000000"
+]
+
+level_6 = [
+    "0000000",
+    "0P    0",
+    "00000 0",
+    "0T    0",
+    "0000000"
+]
+
+level_7 = [
+    "0000000",
+    "0T    0",
+    "00000 0",
+    "0P    0",
+    "0000000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
 levels.append(level_3)
 levels.append(level_4)
+levels.append(level_5)
+levels.append(level_6)
+levels.append(level_7)
 print(levels)
 
 # Add treasures list
@@ -193,7 +220,7 @@ current_level_idx = 0
 
 def next_level():
     global current_level_idx, treasures
-    if len(treasures) == 0:
+    if len(treasures) == 0:  # theres no treasure before the first level is created and after it is collected/destroyed
         print('current level idx', current_level_idx, 'len levels', len(levels))
         if current_level_idx < len(levels):
             print('current level idx now', current_level_idx)
@@ -258,7 +285,8 @@ while True:
             player.gold += treasure.gold
             print("Player Gold: {}".format(player.gold))
             treasure.destroy()
-            treasures.remove(treasure)  # len(treasures) will always be 1
+            # len(treasures) will always be 1 after the first initiation of 'next level'
+            treasures.remove(treasure)
             pen.clear()  # not neat
             walls = []  # not neat
             # turtle.Screen().bye()

@@ -3,15 +3,18 @@ import turtle
 import tkinter.messagebox
 import math
 
-#create the window
+# create the window
 window = tkinter.Tk()
 
-canvas = tkinter.Canvas(master = window, width = 700, height = 700)
-canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10, columnspan=10) # , sticky='nsew')
+canvas = tkinter.Canvas(master=window, width=700, height=700)
+canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
+            columnspan=10)  # , sticky='nsew')
 #draw = turtle.Turtle()
 # draw = turtle.RawTurtle(canvas)
 
 # Create Pen
+
+
 class Pen(turtle.RawTurtle):
     def __init__(self):
         turtle.RawTurtle.__init__(self, canvas)
@@ -38,6 +41,7 @@ class Player(turtle.RawTurtle):
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
+            self.setheading(90)
 
     def go_down(self):
         # Calculate spot to move to
@@ -47,6 +51,7 @@ class Player(turtle.RawTurtle):
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
+            self.setheading(270)
 
     def go_left(self):
         # Calculate spot to move to
@@ -56,17 +61,7 @@ class Player(turtle.RawTurtle):
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
-
-    def check_left(self):
-        # Calculate spot to move to
-        check_x = self.xcor() - 24
-        check_y = self.ycor()
-
-        # Check if the space has a wall 
-        if(check_x, check_y) in walls:
-            # return True if there is a wall 
-            return True
-        return False
+            self.setheading(180)
 
     def go_right(self):
         # Calculate spot to move to
@@ -76,6 +71,7 @@ class Player(turtle.RawTurtle):
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
+            self.setheading(0)
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -102,64 +98,65 @@ class Treasure(turtle.RawTurtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
+
 # Create Levels List
 levels = []
 
 # Define First Level
 level_1 = [
-    "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XP XXXXXXX          XXXXX",
-    "X  XXXXXXX  XXXXXX  XXXXX",
-    "X       XX  XXXXXX  XXXXX",
-    "X       XX  XXX        XX",
-    "XXXXXX  XX  XXX        XX",
-    "XXXXXX  XX  XXXXXX  XXXXX",
-    "XXXXXX  XX    XXXX  XXXXX",
-    "X  XXX        XXXXT XXXXX",
-    "X  XXX  XXXXXXXXXXXXXXXXX",
-    "X         XXXXXXXXXXXXXXX",
-    "X                XXXXXXXX",
-    "XXXXXXXXXXXX     XXXXX  X",
-    "XXXXXXXXXXXXXXX  XXXXX  X",
-    "XXX  XXXXXXXXXX         X",
-    "XXX                     X",
-    "XXX         XXXXXXXXXXXXX",
-    "XXXXXXXXXX  XXXXXXXXXXXXX",
-    "XXXXXXXXXX              X",
-    "XX   XXXXX              X",
-    "XX   XXXXXXXXXXXXX  XXXXX",
-    "XX     XXXXXXXXXXX  XXXXX",
-    "XX          XXXX        X",
-    "XXXX                    X",
-    "XXXXXXXXXXXXXXXXXXXXXXXXX"
+    "0000000000000000000000000",
+    "0P 0000000          00000",
+    "0  0000000  000000  00000",
+    "0       00  000000  00000",
+    "0       00  000        00",
+    "000000  00  000        00",
+    "000000  00  000000  00000",
+    "000000  00    0000  00000",
+    "0  000        0000T 00000",
+    "0  000  00000000000000000",
+    "0         000000000000000",
+    "0                00000000",
+    "000000000000     00000  0",
+    "000000000000000  00000  0",
+    "000  0000000000         0",
+    "000                     0",
+    "000         0000000000000",
+    "0000000000  0000000000000",
+    "0000000000              0",
+    "00   00000              0",
+    "00   0000000000000  00000",
+    "00     00000000000  00000",
+    "00          0000        0",
+    "0000                    0",
+    "0000000000000000000000000"
 ]
 
 level_2 = [
-    "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "X  XXXXXXX          XXXXX",
-    "X  XXXXXXX  XXXXXX  XXXXX",
-    "X       XX  XXXXXX  XXXXX",
-    "X       XX  XXX        XX",
-    "XXXXXX  XX  XXX        XX",
-    "XXXXXX  XX  XXXXXX  XXXXX",
-    "XXXXXX  XX    XXXX  XXXXX",
-    "X PXXX        XXXX  XXXXX",
-    "X TXXX  XXXXXXXXXXXXXXXXX",
-    "X         XXXXXXXXXXXXXXX",
-    "X                XXXXXXXX",
-    "XXXXXXXXXXXX     XXXXX  X",
-    "XXXXXXXXXXXXXXX  XXXXX  X",
-    "XXX  XXXXXXXXXX         X",
-    "XXX                     X",
-    "XXX         XXXXXXXXXXXXX",
-    "XXXXXXXXXX  XXXXXXXXXXXXX",
-    "XXXXXXXXXX              X",
-    "XX   XXXXX              X",
-    "XX   XXXXXXXXXXXXX  XXXXX",
-    "XX     XXXXXXXXXXX  XXXXX",
-    "XX          XXX         X",
-    "XXXX                    X",
-    "XXXXXXXXXXXXXXXXXXXXXXXXX"
+    "0000000000000000000000000",
+    "0  0000000          00000",
+    "0  0000000  000000  00000",
+    "0       00  000000  00000",
+    "0       00  000        00",
+    "000000  00  000        00",
+    "000000  00  000000  00000",
+    "000000  00    0000  00000",
+    "0 P000        0000  00000",
+    "0 T000  00000000000000000",
+    "0         000000000000000",
+    "0                00000000",
+    "000000000000     00000  0",
+    "000000000000000  00000  0",
+    "000  0000000000         0",
+    "000                     0",
+    "000         0000000000000",
+    "0000000000  0000000000000",
+    "0000000000              0",
+    "00   00000              0",
+    "00   0000000000000  00000",
+    "00     00000000000  00000",
+    "00          000         0",
+    "0000                    0",
+    "0000000000000000000000000"
 ]
 
 # Add maze to mazes list
@@ -174,7 +171,8 @@ walls = []
 
 # Create class instances
 pen = Pen()
-player = Player()   
+player = Player()
+
 
 def setup_maze(level):
     for y in range(len(level)):
@@ -187,8 +185,8 @@ def setup_maze(level):
             screen_x = -288 + (x * 24)
             screen_y = 288 - (y * 24)
 
-            # Check if it is an X (representing a wall)
-            if character == 'X':
+            # Check if it is an 0 (representing a wall)
+            if character == '0':
                 pen.goto(screen_x, screen_y)
                 pen.stamp()
                 # Add coordinates to wall list
@@ -202,45 +200,54 @@ def setup_maze(level):
             if character == 'T':
                 treasures.append(Treasure(screen_x, screen_y))
 
-current_level = 0
-def next_level(current_level):
-    print('current level', current_level, 'len levels', len(levels))
-    if current_level+1 < len(levels):
-        current_level += 1
-        print('current level now', current_level)
-    else:
-        current_level = 0
-    setup_maze(levels[current_level])
 
-def Button_click ():
+current_level_idx = 1
+
+
+def next_level(current_level_idx):
+    print('current level', current_level_idx, 'len levels', len(levels))
+    if current_level_idx+1 < len(levels):
+        current_level_idx += 1
+        print('current level now', current_level_idx)
+    else:
+        current_level_idx = 0
+    setup_maze(levels[current_level_idx])
+
+
+def Button_click():
     tkinter.messagebox.showinfo("Game", "Maze Runners")
 
-Play_Button = tkinter.Button(master = window, text ="Play!", command = Button_click)
-Play_Button.config(bg="cyan",fg="black")
+
+Play_Button = tkinter.Button(master=window, text="Play!", command=Button_click)
+Play_Button.config(bg="cyan", fg="black")
 Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 
-print('the current level main ', current_level)
+print('the current level main ', current_level_idx)
 
-Board_Button = tkinter.Button(master = window, text ="Next Level", command = next_level(current_level))
-Board_Button.config(bg="cyan",fg="black")
+Board_Button = tkinter.Button(
+    master=window, text="Next Level", command=next_level(current_level_idx))
+Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
-Board_Button = tkinter.Button(master = window, text ="Go left", command = player.go_left)
-Board_Button.config(bg="blue",fg="black")
+Board_Button = tkinter.Button(
+    master=window, text="Go left", command=player.go_left)
+Board_Button.config(bg="blue", fg="black")
 Board_Button.grid(padx=2, pady=2, row=3, column=11, sticky='nsew')
 
-Board_Button = tkinter.Button(master = window, text ="Go right", command = player.go_right)
-Board_Button.config(bg="red",fg="black")
+Board_Button = tkinter.Button(
+    master=window, text="Go right", command=player.go_right)
+Board_Button.config(bg="red", fg="black")
 Board_Button.grid(padx=2, pady=2, row=3, column=13, sticky='nsew')
 
-Board_Button = tkinter.Button(master = window, text ="Go up", command = player.go_up)
-Board_Button.config(bg="yellow",fg="black")
+Board_Button = tkinter.Button(
+    master=window, text="Go up", command=player.go_up)
+Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-Board_Button = tkinter.Button(master = window, text ="Go down", command = player.go_down)
-Board_Button.config(bg="green",fg="black")
+Board_Button = tkinter.Button(
+    master=window, text="Go down", command=player.go_down)
+Board_Button.config(bg="green", fg="black")
 Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
-
 
 
 # Keyboard Binding
@@ -261,6 +268,5 @@ while True:
             print("Player Gold: {}".format(player.gold))
             treasure.destroy()
             treasures.remove(treasure)
-            turtle.Screen().bye()
+            # turtle.Screen().bye()
     window.update()
-

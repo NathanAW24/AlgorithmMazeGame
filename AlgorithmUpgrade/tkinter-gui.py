@@ -32,6 +32,7 @@ class Player(turtle.RawTurtle):
         self.penup()
         self.speed(0)
         self.gold = 0
+        self.setheading(0)
 
     def go_up(self):
         # Calculate spot to move to
@@ -42,6 +43,8 @@ class Player(turtle.RawTurtle):
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
             self.setheading(90)
+        else:
+            tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def go_down(self):
         # Calculate spot to move to
@@ -52,6 +55,8 @@ class Player(turtle.RawTurtle):
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
             self.setheading(270)
+        else:
+            tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def go_left(self):
         # Calculate spot to move to
@@ -62,6 +67,8 @@ class Player(turtle.RawTurtle):
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
             self.setheading(180)
+        else:
+            tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def go_right(self):
         # Calculate spot to move to
@@ -72,6 +79,8 @@ class Player(turtle.RawTurtle):
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
             self.setheading(0)
+        else:
+            tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -125,10 +134,19 @@ level_3 = [
     "00000"
 ]
 
+level_4 = [
+    "0000000",
+    "000  T0",
+    "000 000",
+    "0P  000",
+    "0000000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
 levels.append(level_3)
+levels.append(level_4)
 print(levels)
 
 # Add treasures list
@@ -163,6 +181,7 @@ def setup_maze(level):
             # Check player
             if character == 'P':
                 player.goto(screen_x, screen_y)
+                player.setheading(0)
 
             # Check treasure
             if character == 'T':
@@ -172,16 +191,16 @@ def setup_maze(level):
 current_level_idx = 0
 
 
-def next_level(current_level_idx):
-    print('current level idx', current_level_idx, 'len levels', len(levels))
-    if current_level_idx < len(levels):
-        print('current level idx now', current_level_idx)
+def next_level():
+    global current_level_idx, treasures
+    if len(treasures) == 0:
+        print('current level idx', current_level_idx, 'len levels', len(levels))
+        if current_level_idx < len(levels):
+            print('current level idx now', current_level_idx)
+        else:
+            current_level_idx = 0
         setup_maze(levels[current_level_idx])
-        # current_level_idx += 1
-    else:
-        current_level_idx = 0
-        setup_maze(levels[current_level_idx])
-        # current_level_idx += 1
+        current_level_idx += 1
 
 
 def Button_click():
@@ -195,7 +214,7 @@ Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
-    master=window, text="Next Level", command=lambda: next_level(current_level_idx))
+    master=window, text="Next Level", command=lambda: next_level())
 Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
@@ -234,9 +253,13 @@ Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 while True:
     for treasure in treasures:
         if player.is_collision(treasure):
+            tkinter.messagebox.showinfo(
+                "Message", "Congratulations")  # not neat
             player.gold += treasure.gold
             print("Player Gold: {}".format(player.gold))
             treasure.destroy()
-            treasures.remove(treasure)
+            treasures.remove(treasure)  # len(treasures) will always be 1
+            pen.clear()  # not neat
+            walls = []  # not neat
             # turtle.Screen().bye()
     window.update()

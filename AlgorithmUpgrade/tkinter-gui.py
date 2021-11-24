@@ -33,7 +33,7 @@ class Player(turtle.RawTurtle):
         self.speed(0)
         self.gold = 0
         # Create commands list
-        self.commands = ['f','tl','tr']
+        self.commands = ['f','tl','tr'] # placeholder values only, for experimentation
 
     def forward(self):
         self.commands.append('f')

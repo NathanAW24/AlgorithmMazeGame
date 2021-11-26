@@ -8,7 +8,8 @@ window = tkinter.Tk()
 
 canvas = tkinter.Canvas(master=window, width=700, height=700)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
-            columnspan=10)  # , sticky='nsew')
+            columnspan=10)
+# , sticky='nsew')
 #draw = turtle.Turtle()
 # draw = turtle.RawTurtle(canvas)
 
@@ -32,55 +33,48 @@ class Player(turtle.RawTurtle):
         self.penup()
         self.speed(0)
         self.gold = 0
-        self.setheading(0)
+        # Create commands list
+        # placeholder values only, for experimentation
+        self.commands = ['f', 'tl', 'tr']
 
-    def go_up(self):
+    def forward(self):
+        self.commands.append('f')
+        print(self.commands)
         # Calculate spot to move to
-        move_to_x = self.xcor()
-        move_to_y = self.ycor() + 24
+        direction = self.heading()
+        print(direction)
+        if (direction == 0):
+            move_to_x = self.xcor() + 24
+            move_to_y = self.ycor()
+        elif (direction == 90):
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() + 24
+        elif (direction == 180):
+            move_to_x = self.xcor() - 24
+            move_to_y = self.ycor()
+        elif (direction == 270):
+            move_to_x = self.xcor()
+            move_to_y = self.ycor() - 24
+        elif (direction == 360):
+            direction = 0
+            move_to_x = self.xcor() + 24
+            move_to_y = self.ycor()
+        else:
+            print('direction is weird')
 
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
-            self.setheading(90)
         else:
             tkinter.messagebox.showinfo("Message", "U hit wall")
 
-    def go_down(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor()
-        move_to_y = self.ycor() - 24
+    def turn_left(self):
+        self.commands.append('tl')
+        self.left(90)
 
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(270)
-        else:
-            tkinter.messagebox.showinfo("Message", "U hit wall")
-
-    def go_left(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor() - 24
-        move_to_y = self.ycor()
-
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(180)
-        else:
-            tkinter.messagebox.showinfo("Message", "U hit wall")
-
-    def go_right(self):
-        # Calculate spot to move to
-        move_to_x = self.xcor() + 24
-        move_to_y = self.ycor()
-
-        # Check if the space has a wall
-        if(move_to_x, move_to_y) not in walls:
-            self.goto(move_to_x, move_to_y)
-            self.setheading(0)
-        else:
-            tkinter.messagebox.showinfo("Message", "U hit wall")
+    def turn_right(self):
+        self.commands.append('tr')
+        self.right(90)
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -246,32 +240,30 @@ Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go left", command=player.go_left)
+    master=window, text="Turn left", command=player.turn_left)
 Board_Button.config(bg="blue", fg="black")
-Board_Button.grid(padx=2, pady=2, row=3, column=11, sticky='nsew')
+Board_Button.grid(padx=2, pady=2, row=2, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go right", command=player.go_right)
+    master=window, text="Turn right", command=player.turn_right)
 Board_Button.config(bg="red", fg="black")
-Board_Button.grid(padx=2, pady=2, row=3, column=13, sticky='nsew')
+Board_Button.grid(padx=2, pady=2, row=2, column=13, sticky='nsew')
 
 Board_Button = tkinter.Button(
-    master=window, text="Go up", command=player.go_up)
+    master=window, text="Forward", command=player.forward)
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-Board_Button = tkinter.Button(
-    master=window, text="Go down", command=player.go_down)
-Board_Button.config(bg="green", fg="black")
-Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
+# Board_Button = tkinter.Button(
+#     master=window, text="Go down", command=player.go_down)
+# Board_Button.config(bg="green", fg="black")
+# Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
-
-# Keyboard Binding
-# turtle.listen()
-# turtle.onkey(player.go_left, 'Left')
-# turtle.onkey(player.go_right, 'Right')
-# turtle.onkey(player.go_up, 'Up')
-# turtle.onkey(player.go_down, 'Down')
+commandstext = tkinter.Text(master=window)
+for x in range(len(player.commands)):
+    commandstext.insert(
+        '1.0', player.commands[len(player.commands)-x-1] + '\n')
+commandstext.grid(padx=2, pady=2, row=5, column=14)
 
 # Turn off screen updates
 # window.tracer(0)

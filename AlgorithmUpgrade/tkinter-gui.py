@@ -6,9 +6,13 @@ import math
 # create the window
 window = tkinter.Tk()
 
-canvas = tkinter.Canvas(master=window, width=700, height=700)
+canvas_width = 100
+canvas_height = 100
+canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
+
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
-            columnspan=10)  # , sticky='nsew')
+            columnspan=10)
+# , sticky='nsew')
 #draw = turtle.Turtle()
 # draw = turtle.RawTurtle(canvas)
 
@@ -33,7 +37,8 @@ class Player(turtle.RawTurtle):
         self.speed(0)
         self.gold = 0
         # Create commands list
-        self.commands = ['f','tl','tr'] # placeholder values only, for experimentation
+        # placeholder values only, for experimentation
+        self.commands = ['f', 'tl', 'tr']
 
     def forward(self):
         self.commands.append('f')
@@ -63,11 +68,12 @@ class Player(turtle.RawTurtle):
         # Check if the space has a wall
         if(move_to_x, move_to_y) not in walls:
             self.goto(move_to_x, move_to_y)
+        else:
+            tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def turn_left(self):
         self.commands.append('tl')
         self.left(90)
-        
 
     def turn_right(self):
         self.commands.append('tr')
@@ -104,8 +110,9 @@ levels = []
 
 # Define First Level
 level_1 = [
-    "0000000000000000000000000",
-    "0P 0000000    T     00000",
+    "00000",
+    "0P T0",
+    "00000"
 ]
 
 level_2 = [
@@ -124,10 +131,46 @@ level_3 = [
     "00000"
 ]
 
+level_4 = [
+    "0000000",
+    "000  T0",
+    "000 000",
+    "0P  000",
+    "0000000"
+]
+
+level_5 = [
+    "0000000",
+    "0P  000",
+    "000 000",
+    "000  T0",
+    "0000000"
+]
+
+level_6 = [
+    "0000000",
+    "0P    0",
+    "00000 0",
+    "0T    0",
+    "0000000"
+]
+
+level_7 = [
+    "0000000",
+    "0T    0",
+    "00000 0",
+    "0P    0",
+    "0000000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
 levels.append(level_3)
+levels.append(level_4)
+levels.append(level_5)
+levels.append(level_6)
+levels.append(level_7)
 print(levels)
 
 # Add treasures list
@@ -150,7 +193,10 @@ def setup_maze(level):
 
             # Calculate the screen x,y coordinates
             screen_x = -288 + (x * 24)
+            screen_x = -(canvas_width * 0.25) + (x * 24)
+            
             screen_y = 288 - (y * 24)
+            screen_y = (canvas_height*0.25) - (y * 24)
 
             # Check if it is an 0 (representing a wall)
             if character == '0':
@@ -162,6 +208,7 @@ def setup_maze(level):
             # Check player
             if character == 'P':
                 player.goto(screen_x, screen_y)
+                player.setheading(0)
 
             # Check treasure
             if character == 'T':
@@ -171,16 +218,16 @@ def setup_maze(level):
 current_level_idx = 0
 
 
-def next_level(current_level_idx):
-    print('current level idx', current_level_idx, 'len levels', len(levels))
-    if current_level_idx < len(levels):
-        print('current level idx now', current_level_idx)
+def next_level():
+    global current_level_idx, treasures
+    if len(treasures) == 0:  # theres no treasure before the first level is created and after it is collected/destroyed
+        print('current level idx', current_level_idx, 'len levels', len(levels))
+        if current_level_idx < len(levels):
+            print('current level idx now', current_level_idx)
+        else:
+            current_level_idx = 0
         setup_maze(levels[current_level_idx])
-        # current_level_idx += 1
-    else:
-        current_level_idx = 0
-        setup_maze(levels[current_level_idx])
-        # current_level_idx += 1
+        current_level_idx += 1
 
 
 def Button_click():
@@ -194,7 +241,7 @@ Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
-    master=window, text="Next Level", command=lambda: next_level(current_level_idx))
+    master=window, text="Next Level", command=lambda: next_level())
 Board_Button.config(bg="cyan", fg="black")
 Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
@@ -218,10 +265,11 @@ Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 # Board_Button.config(bg="green", fg="black")
 # Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
-commandstext = tkinter.Text(master = window)
+commandstext = tkinter.Text(master=window)
 for x in range(len(player.commands)):
-    commandstext.insert('1.0', player.commands[len(player.commands)-x-1] + '\n')
-commandstext.grid(padx=2, pady= 2, row=5, column=14)
+    commandstext.insert(
+        '1.0', player.commands[len(player.commands)-x-1] + '\n')
+commandstext.grid(padx=2, pady=2, row=5, column=14)
 
 # Turn off screen updates
 # window.tracer(0)
@@ -230,9 +278,14 @@ commandstext.grid(padx=2, pady= 2, row=5, column=14)
 while True:
     for treasure in treasures:
         if player.is_collision(treasure):
+            tkinter.messagebox.showinfo(
+                "Message", "Congratulations")  # not neat
             player.gold += treasure.gold
             print("Player Gold: {}".format(player.gold))
             treasure.destroy()
+            # len(treasures) will always be 1 after the first initiation of 'next level'
             treasures.remove(treasure)
+            pen.clear()  # not neat
+            walls = []  # not neat
             # turtle.Screen().bye()
     window.update()

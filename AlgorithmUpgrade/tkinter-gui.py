@@ -6,7 +6,10 @@ import math
 # create the window
 window = tkinter.Tk()
 
-canvas = tkinter.Canvas(master=window, width=700, height=700)
+canvas_width = 100
+canvas_height = 100
+canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
+
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 # , sticky='nsew')
@@ -190,7 +193,10 @@ def setup_maze(level):
 
             # Calculate the screen x,y coordinates
             screen_x = -288 + (x * 24)
+            screen_x = -(canvas_width * 0.25) + (x * 24)
+            
             screen_y = 288 - (y * 24)
+            screen_y = (canvas_height*0.25) - (y * 24)
 
             # Check if it is an 0 (representing a wall)
             if character == '0':

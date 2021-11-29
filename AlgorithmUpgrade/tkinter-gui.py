@@ -11,12 +11,14 @@ window = tkinter.Tk()
 sisi = 300
 canvas_width = sisi
 canvas_height = sisi
-canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
+canvas = tkinter.Canvas(
+    master=window, width=canvas_width, height=canvas_height)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
-commandscanvas = tkinter.Canvas(master = window, width = 200, height = 100)
+commandscanvas = tkinter.Canvas(master=window, width=200, height=100)
 commandscanvas.grid(padx=2, pady=2, row=3, column=12)
+
 
 class Pen(turtle.RawTurtle):
     def __init__(self):
@@ -106,6 +108,7 @@ class Treasure(turtle.RawTurtle):
     def destroy(self):
         self.goto(2000, 2000)
         self.hideturtle()
+
 
 class CommandPen(turtle.RawTurtle):
     def __init__(self):
@@ -210,6 +213,7 @@ pen = Pen()
 player = Player()
 commandpen = CommandPen()
 
+
 def setup_maze(level):
     for y in range(len(level)):
         for x in range(len(level[y])):
@@ -219,7 +223,7 @@ def setup_maze(level):
 
             # Calculate the screen x,y coordinates
             screen_x = -(canvas_width * 0.25) + (x * 24)
-            
+
             screen_y = (canvas_height*0.25) - (y * 24)
 
             # Check if it is an 0 (representing a wall)
@@ -241,9 +245,10 @@ def setup_maze(level):
 
 current_level_idx = 0
 
+
 def show_commands():
-    commandpen.goto((-110,0))
-    commandstext.delete('1.0',END)
+    commandpen.goto((-110, 0))
+    commandstext.delete('1.0', END)
     for x in range(len(player.commands)):
         commandstext.insert(
             '1.0', player.commands[len(player.commands)-x-1] + '\n')
@@ -265,10 +270,6 @@ def show_commands():
             commandpen.stamp()
 
         # commandpen.color('white')
-        
-        
-        
-            
 
 
 def execute_commands():
@@ -322,13 +323,13 @@ def execute_commands():
 
     player.commands = []
 
+
 def clear_commands():
     player.commands = []
     show_commands()
 
     commandpen.clear()
     commandpen.color('white')
-
 
 
 def repeat_maze():
@@ -340,12 +341,6 @@ def repeat_maze():
         pen.clear()  # not neat
         walls = []  # not neat
         setup_maze(levels[current_level_idx-1])
-    pass
-
-
-def fail():
-    # condition = hitwall or doesnt reach goal after execution
-    # final goal --> repeat_level
     pass
 
 
@@ -390,16 +385,18 @@ Board_Button = tkinter.Button(
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-Execute_Button = tkinter.Button(master=window, text="Execute commands", command=lambda: execute_commands())
+Execute_Button = tkinter.Button(
+    master=window, text="Execute commands", command=lambda: execute_commands())
 Execute_Button.config(bg="green", fg="black")
 Execute_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
-Clear_Button = tkinter.Button(master=window, text="Clear commands", command=lambda: clear_commands())
+Clear_Button = tkinter.Button(
+    master=window, text="Clear commands", command=lambda: clear_commands())
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=2, row=4, column=13, sticky='nsew')
 
 # Commands text, will be updated to commands canvas
-commandstext = tkinter.Text(master=window, width = 20, height = 20)
+commandstext = tkinter.Text(master=window, width=20, height=20)
 commandstext.grid(padx=2, pady=2, row=3, column=14)
 
 

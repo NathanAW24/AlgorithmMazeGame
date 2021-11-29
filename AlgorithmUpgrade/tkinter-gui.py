@@ -3,6 +3,7 @@ from tkinter.constants import END
 import turtle
 import tkinter.messagebox
 import math
+import time
 
 # create the window
 window = tkinter.Tk()
@@ -226,6 +227,7 @@ current_level_idx = 0
 
 
 def show_commands():
+    commandstext.delete('1.0', END)
     for x in range(len(player.commands)):
         commandstext.insert(
             '1.0', player.commands[len(player.commands)-x-1] + '\n')
@@ -234,7 +236,6 @@ def show_commands():
 def execute_commands():
     for x in player.commands:
         if x == 'f':
-            player.forward()
             # Calculate spot to move to
             direction = player.heading()
             print(direction)
@@ -263,11 +264,11 @@ def execute_commands():
             else:
                 tkinter.messagebox.showinfo("Message", "U hit wall")
         elif x == 'tl':
-            player.turn_left()
             player.left(90)
         elif x == 'tr':
-            player.turn_right()
             player.right(90)
+        time.sleep(0.2)
+    player.commands = []
     pass
 
 
@@ -282,8 +283,7 @@ def next_level():
         setup_maze(levels[current_level_idx])
         current_level_idx += 1
         # clear commands
-        player.commands = []
-        show_commands()
+        # show_commands()
 
 
 Play_Button = tkinter.Button(
@@ -316,6 +316,11 @@ Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 # Commands screen
 commandstext = tkinter.Text(master=window)
 commandstext.grid(padx=2, pady=2, row=5, column=14)
+
+Play_Button = tkinter.Button(
+    master=window, text="Execute commands", command=lambda: execute_commands())
+Play_Button.config(bg="green", fg="black")
+Play_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
 
 # Turn off screen updates

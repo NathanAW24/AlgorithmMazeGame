@@ -272,6 +272,8 @@ def show_commands():
 
 
 def execute_commands():
+    global treasures
+    flag = 0
     for x in player.commands:
         if x == 'f':
             # Calculate spot to move to
@@ -301,11 +303,23 @@ def execute_commands():
                 player.goto(move_to_x, move_to_y)
             else:
                 tkinter.messagebox.showinfo("Message", "U hit wall")
+                flag = 1
+                # repeat
+                repeat_maze()
+                break
         elif x == 'tl':
             player.left(90)
         elif x == 'tr':
             player.right(90)
         time.sleep(0.2)
+
+    # if doesnt reach the end --> show u fail, and repeat ok
+    if flag == 0:
+        for treasure in treasures:
+            if not player.is_collision(treasure):
+                tkinter.messagebox.showinfo("Message", "U didnt hit treasure")
+                repeat_maze()
+
     player.commands = []
 
 def clear_commands():

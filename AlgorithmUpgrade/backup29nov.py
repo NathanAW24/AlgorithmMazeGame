@@ -242,7 +242,7 @@ def setup_maze(level):
 current_level_idx = 0
 
 def show_commands():
-    commandpen.goto((-110,0))
+    commandpen.goto((-60,0))
     commandstext.delete('1.0',END)
     for x in range(len(player.commands)):
         commandstext.insert(
@@ -272,8 +272,6 @@ def show_commands():
 
 
 def execute_commands():
-    global treasures
-    flag = 0
     for x in player.commands:
         if x == 'f':
             # Calculate spot to move to
@@ -303,23 +301,11 @@ def execute_commands():
                 player.goto(move_to_x, move_to_y)
             else:
                 tkinter.messagebox.showinfo("Message", "U hit wall")
-                flag = 1
-                # repeat
-                repeat_maze()
-                break
         elif x == 'tl':
             player.left(90)
         elif x == 'tr':
             player.right(90)
         time.sleep(0.2)
-
-    # if doesnt reach the end --> show u fail, and repeat ok
-    if flag == 0:
-        for treasure in treasures:
-            if not player.is_collision(treasure):
-                tkinter.messagebox.showinfo("Message", "U didnt hit treasure")
-                repeat_maze()
-
     player.commands = []
 
 def clear_commands():
@@ -329,24 +315,6 @@ def clear_commands():
     commandpen.clear()
     commandpen.color('white')
 
-
-
-def repeat_maze():
-    global current_level_idx, treasures, walls
-    for treasure in treasures:
-        treasure.destroy()
-        # len(treasures) will always be 1 after the first initiation of 'next level'
-        treasures.remove(treasure)
-        pen.clear()  # not neat
-        walls = []  # not neat
-        setup_maze(levels[current_level_idx-1])
-    pass
-
-
-def fail():
-    # condition = hitwall or doesnt reach goal after execution
-    # final goal --> repeat_level
-    pass
 
 
 def next_level():
@@ -390,23 +358,19 @@ Board_Button = tkinter.Button(
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-Execute_Button = tkinter.Button(master=window, text="Execute commands", command=lambda: execute_commands())
-Execute_Button.config(bg="green", fg="black")
-Execute_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
+Play_Button = tkinter.Button(master=window, text="Execute commands", command=lambda: execute_commands())
+Play_Button.config(bg="green", fg="black")
+Play_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
-Clear_Button = tkinter.Button(master=window, text="Clear commands", command=lambda: clear_commands())
-Clear_Button.config(bg="orange", fg="black")
-Clear_Button.grid(padx=2, pady=2, row=4, column=13, sticky='nsew')
+Play_Button = tkinter.Button(master=window, text="Clear commands", command=lambda: clear_commands())
+Play_Button.config(bg="orange", fg="black")
+Play_Button.grid(padx=2, pady=2, row=4, column=13, sticky='nsew')
 
 # Commands text, will be updated to commands canvas
 commandstext = tkinter.Text(master=window, width = 20, height = 20)
 commandstext.grid(padx=2, pady=2, row=3, column=14)
 
 
-Repeat_Button = tkinter.Button(
-    master=window, text="Repeat", command=lambda: repeat_maze())
-Repeat_Button.config(bg="green", fg="black")
-Repeat_Button.grid(padx=2, pady=2, row=6, column=12, sticky='nsew')
 
 
 # Turn off screen updates

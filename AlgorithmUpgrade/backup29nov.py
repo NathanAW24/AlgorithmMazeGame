@@ -15,9 +15,9 @@ canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
-# # commandscanvas = tkinter.Canvas(master = window)
-# commandscanvas = tkinter.Canvas(master = window, width = 100, height = 100)
-# commandscanvas.grid(padx=2, pady=2, row=5, column=14)
+# commandscanvas = tkinter.Canvas(master = window)
+commandscanvas = tkinter.Canvas(master = window, width = 100, height = 100)
+commandscanvas.grid(padx=2, pady=2, row=5, column=14)
 
 class Pen(turtle.RawTurtle):
     def __init__(self):
@@ -108,13 +108,13 @@ class Treasure(turtle.RawTurtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
-# class commandPen(turtle.RawTurtle):
-#     def __init__(self):
-#         turtle.RawTurtle.__init__(self, commandscanvas)
-#         self.shape('triangle')
-#         self.color('yellow')
-#         self.penup()
-#         self.speed(0)
+class commandPen(turtle.RawTurtle):
+    def __init__(self):
+        turtle.RawTurtle.__init__(self, commandscanvas)
+        self.shape('triangle')
+        self.color('yellow')
+        self.penup()
+        self.speed(0)
 
     # def stampfront(self):
     #     self.shape('triangle')
@@ -199,7 +199,7 @@ walls = []
 # Create class instances
 pen = Pen()
 player = Player()
-# commandpen = commandPen()
+commandpen = commandPen()
 
 def setup_maze(level):
     for y in range(len(level)):
@@ -233,18 +233,18 @@ def setup_maze(level):
 current_level_idx = 0
 
 def show_commands():
-    # commandPen.goto(100,100)
-
+    commandPen.goto(100,100)
+    
     for x in range(len(player.commands)):
         commandstext.insert(
             '1.0', player.commands[len(player.commands)-x-1] + '\n')
-    # for i in range(len(player.commands)):
-    #     cp_xcor = commandPen.xcor()
-    #     print(cp_xcor, 'i is', i)
+    for i in range(len(player.commands)):
+        cp_xcor = commandPen.xcor()
+        print(cp_xcor, 'i is', i)
 
-    #     if player.commands[i] == 'f':
-    #         commandPen.goto(cp_xcor + 24)
-    #         commandPen.stamp()
+        if player.commands[i] == 'f':
+            commandPen.goto(cp_xcor + 24)
+            commandPen.stamp()
             
 
 def next_level():

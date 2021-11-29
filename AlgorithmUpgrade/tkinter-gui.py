@@ -234,6 +234,8 @@ def show_commands():
 
 
 def execute_commands():
+    global treasures
+    flag = 0
     for x in player.commands:
         if x == 'f':
             # Calculate spot to move to
@@ -263,12 +265,25 @@ def execute_commands():
                 player.goto(move_to_x, move_to_y)
             else:
                 tkinter.messagebox.showinfo("Message", "U hit wall")
+                flag = 1
+                # repeat
+                repeat_maze()
+                break
         elif x == 'tl':
             player.left(90)
         elif x == 'tr':
             player.right(90)
         time.sleep(0.2)
+
+    # if doesnt reach the end --> show u fail, and repeat ok
+    if flag == 0:
+        for treasure in treasures:
+            if not player.is_collision(treasure):
+                tkinter.messagebox.showinfo("Message", "U didnt hit treasure")
+                repeat_maze()
+
     player.commands = []
+
     pass
 
 
@@ -335,10 +350,10 @@ Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 commandstext = tkinter.Text(master=window)
 commandstext.grid(padx=2, pady=2, row=5, column=14)
 
-Play_Button = tkinter.Button(
+Execute_Button = tkinter.Button(
     master=window, text="Execute commands", command=lambda: execute_commands())
-Play_Button.config(bg="green", fg="black")
-Play_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
+Execute_Button.config(bg="green", fg="black")
+Execute_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
 Repeat_Button = tkinter.Button(
     master=window, text="Repeat", command=lambda: repeat_maze())

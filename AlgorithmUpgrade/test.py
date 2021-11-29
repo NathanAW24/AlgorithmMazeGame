@@ -34,8 +34,3 @@ p = ttk.Progressbar(f, orient="horizontal", mode="determinate", maximum=20);
 p.grid(column=0, row=1, padx=5, pady=5)
 
 # root.mainloop()
-
-lst0 = [[0,1],[1]]
-lst1 = lst0 + ['w']
-print(id(lst1))
-print(id(lst0))

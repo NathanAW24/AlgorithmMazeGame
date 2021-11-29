@@ -11,16 +11,12 @@ window = tkinter.Tk()
 sisi = 300
 canvas_width = sisi
 canvas_height = sisi
-canvas = tkinter.Canvas(
-    master=window, width=canvas_width, height=canvas_height)
-
 canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
-# # commandscanvas = tkinter.Canvas(master = window)
-# commandscanvas = tkinter.Canvas(master = window, width = 100, height = 100)
-# commandscanvas.grid(padx=2, pady=2, row=5, column=14)
+commandscanvas = tkinter.Canvas(master = window, width = 200, height = 100)
+commandscanvas.grid(padx=2, pady=2, row=3, column=12)
 
 class Pen(turtle.RawTurtle):
     def __init__(self):
@@ -111,19 +107,29 @@ class Treasure(turtle.RawTurtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
-# class commandPen(turtle.RawTurtle):
-#     def __init__(self):
-#         turtle.RawTurtle.__init__(self, commandscanvas)
-#         self.shape('triangle')
-#         self.color('yellow')
-#         self.penup()
-#         self.speed(0)
+class CommandPen(turtle.RawTurtle):
+    def __init__(self):
+        turtle.RawTurtle.__init__(self, commandscanvas)
+        self.shape('square')
+        self.color('yellow')
+        self.penup()
+        self.speed(0)
 
-    # def stampfront(self):
-    #     self.shape('triangle')
-    #     self.color('yellow')
-    #     self.goto()
-    #     self.stamp
+    def frontstamp(self):
+        self.shape('triangle')
+        self.color('yellow')
+        self.setheading(90)
+
+    def leftstamp(self):
+        self.shape('triangle')
+        self.color('blue')
+        self.setheading(180)
+
+    def rightstamp(self):
+        self.shape('triangle')
+        self.color('red')
+        self.setheading(0)
+
 
 # Create Levels List
 levels = []
@@ -202,7 +208,7 @@ walls = []
 # Create class instances
 pen = Pen()
 player = Player()
-# commandpen = commandPen()
+commandpen = CommandPen()
 
 def setup_maze(level):
     for y in range(len(level)):
@@ -235,20 +241,33 @@ def setup_maze(level):
 
 current_level_idx = 0
 
-
 def show_commands():
-    # commandPen.goto(100,100)
-
+    commandpen.goto((-60,0))
+    commandstext.delete('1.0',END)
     for x in range(len(player.commands)):
         commandstext.insert(
             '1.0', player.commands[len(player.commands)-x-1] + '\n')
-    # for i in range(len(player.commands)):
-    #     cp_xcor = commandPen.xcor()
-    #     print(cp_xcor, 'i is', i)
+    for i in range(len(player.commands)):
+        cp_xcor = commandpen.xcor()
+        cp_ycor = commandpen.ycor()
 
-    #     if player.commands[i] == 'f':
-    #         commandPen.goto(cp_xcor + 24)
-    #         commandPen.stamp()
+        if player.commands[i] == 'f':
+            commandpen.frontstamp()
+            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.stamp()
+        elif player.commands[i] == 'tl':
+            commandpen.leftstamp()
+            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.stamp()
+        elif player.commands[i] == 'tr':
+            commandpen.rightstamp()
+            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.stamp()
+
+        # commandpen.color('white')
+        
+        
+        
             
 
 
@@ -288,7 +307,14 @@ def execute_commands():
             player.right(90)
         time.sleep(0.2)
     player.commands = []
-    pass
+
+def clear_commands():
+    player.commands = []
+    show_commands()
+
+    commandpen.clear()
+    commandpen.color('white')
+
 
 
 def next_level():
@@ -302,7 +328,7 @@ def next_level():
         setup_maze(levels[current_level_idx])
         current_level_idx += 1
         # clear commands
-        # show_commands()
+        clear_commands()
 
 
 Play_Button = tkinter.Button(
@@ -336,6 +362,10 @@ Play_Button = tkinter.Button(master=window, text="Execute commands", command=lam
 Play_Button.config(bg="green", fg="black")
 Play_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
 
+Play_Button = tkinter.Button(master=window, text="Clear commands", command=lambda: clear_commands())
+Play_Button.config(bg="orange", fg="black")
+Play_Button.grid(padx=2, pady=2, row=4, column=13, sticky='nsew')
+
 # Commands text, will be updated to commands canvas
 commandstext = tkinter.Text(master=window, width = 20, height = 20)
 commandstext.grid(padx=2, pady=2, row=3, column=14)
@@ -358,6 +388,7 @@ while True:
             # len(treasures) will always be 1 after the first initiation of 'next level'
             treasures.remove(treasure)
             pen.clear()  # not neat
+            commandpen.clear()
             walls = []  # not neat
             # turtle.Screen().bye()
     window.update()

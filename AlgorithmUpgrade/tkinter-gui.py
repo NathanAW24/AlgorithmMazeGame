@@ -272,6 +272,24 @@ def execute_commands():
     pass
 
 
+def repeat_maze():
+    global current_level_idx, treasures, walls
+    for treasure in treasures:
+        treasure.destroy()
+        # len(treasures) will always be 1 after the first initiation of 'next level'
+        treasures.remove(treasure)
+        pen.clear()  # not neat
+        walls = []  # not neat
+        setup_maze(levels[current_level_idx-1])
+    pass
+
+
+def fail():
+    # condition = hitwall or doesnt reach goal after execution
+    # final goal --> repeat_level
+    pass
+
+
 def next_level():
     global current_level_idx, treasures
     if len(treasures) == 0:  # theres no treasure before the first level is created and after it is collected/destroyed
@@ -321,6 +339,11 @@ Play_Button = tkinter.Button(
     master=window, text="Execute commands", command=lambda: execute_commands())
 Play_Button.config(bg="green", fg="black")
 Play_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
+
+Repeat_Button = tkinter.Button(
+    master=window, text="Repeat", command=lambda: repeat_maze())
+Repeat_Button.config(bg="green", fg="black")
+Repeat_Button.grid(padx=2, pady=2, row=6, column=12, sticky='nsew')
 
 
 # Turn off screen updates

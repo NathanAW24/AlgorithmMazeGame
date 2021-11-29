@@ -1,4 +1,5 @@
 import tkinter
+from tkinter.constants import END
 import turtle
 import tkinter.messagebox
 import math
@@ -6,8 +7,9 @@ import math
 # create the window
 window = tkinter.Tk()
 
-canvas_width = 100
-canvas_height = 100
+sisi = 300
+canvas_width = sisi
+canvas_height = sisi
 canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
 
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
@@ -43,6 +45,8 @@ class Player(turtle.RawTurtle):
     def forward(self):
         self.commands.append('f')
         print(self.commands)
+        show_commands()
+
         # Calculate spot to move to
         direction = self.heading()
         print(direction)
@@ -74,10 +78,12 @@ class Player(turtle.RawTurtle):
     def turn_left(self):
         self.commands.append('tl')
         self.left(90)
+        show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
         self.right(90)
+        show_commands()
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -217,6 +223,11 @@ def setup_maze(level):
 
 current_level_idx = 0
 
+def show_commands():
+    commandstext.delete('1.0', END)
+    for x in range(len(player.commands)):
+        commandstext.insert(
+            '1.0', player.commands[len(player.commands)-x-1] + '\n')
 
 def next_level():
     global current_level_idx, treasures
@@ -229,12 +240,7 @@ def next_level():
         setup_maze(levels[current_level_idx])
         current_level_idx += 1
 
-
-def Button_click():
-    tkinter.messagebox.showinfo("Game", "Maze Runners")
-
-
-Play_Button = tkinter.Button(master=window, text="Play!", command=Button_click)
+Play_Button = tkinter.Button(master=window, text="Play!", command=lambda: next_level())
 Play_Button.config(bg="cyan", fg="black")
 Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 
@@ -260,16 +266,10 @@ Board_Button = tkinter.Button(
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=2, column=12, sticky='nsew')
 
-# Board_Button = tkinter.Button(
-#     master=window, text="Go down", command=player.go_down)
-# Board_Button.config(bg="green", fg="black")
-# Board_Button.grid(padx=2, pady=2, row=4, column=12, sticky='nsew')
-
+# Commands screen
 commandstext = tkinter.Text(master=window)
-for x in range(len(player.commands)):
-    commandstext.insert(
-        '1.0', player.commands[len(player.commands)-x-1] + '\n')
-commandstext.grid(padx=2, pady=2, row=5, column=14)
+commandstext.grid(padx=2, pady=2, row=5, column=14) 
+
 
 # Turn off screen updates
 # window.tracer(0)

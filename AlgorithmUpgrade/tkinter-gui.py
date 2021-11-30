@@ -192,6 +192,46 @@ level_7 = [
     "0000000"
 ]
 
+level_8 = [
+    "0000000",
+    "0T    0",
+    "00000 0",
+    "0     0",
+    "0 00000",
+    "0    P0",
+    "0000000"
+]
+
+level_9 = [
+    "0000000",
+    "0    T0",
+    "0 00000",
+    "0     0",
+    "00000 0",
+    "0P    0",
+    "0000000"
+]
+
+level_10 = [
+    "000000000",
+    "0P0   0T0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0   0   0",
+    "000000000"
+]
+
+level_11 = [
+    "000000000",
+    "0   0   0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0P0   0T0",
+    "000000000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -200,6 +240,10 @@ levels.append(level_4)
 levels.append(level_5)
 levels.append(level_6)
 levels.append(level_7)
+levels.append(level_8)
+levels.append(level_9)
+levels.append(level_10)
+levels.append(level_11)
 print(levels)
 
 # Add treasures list
@@ -341,6 +385,7 @@ def repeat_maze():
         pen.clear()  # not neat
         walls = []  # not neat
         setup_maze(levels[current_level_idx-1])
+    clear_commands()
     pass
 
 
@@ -365,10 +410,10 @@ Play_Button.grid(padx=2, pady=2, row=0, column=11, sticky='nsew')
 
 print('the current level main ', current_level_idx)
 
-Board_Button = tkinter.Button(
-    master=window, text="Next Level", command=lambda: next_level())
-Board_Button.config(bg="cyan", fg="black")
-Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
+# Board_Button = tkinter.Button(
+#     master=window, text="Next Level", command=lambda: next_level())
+# Board_Button.config(bg="cyan", fg="black")
+# Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
@@ -400,10 +445,10 @@ commandstext = tkinter.Text(master=window, width=20, height=20)
 commandstext.grid(padx=2, pady=2, row=3, column=14)
 
 
-Repeat_Button = tkinter.Button(
-    master=window, text="Repeat", command=lambda: repeat_maze())
-Repeat_Button.config(bg="green", fg="black")
-Repeat_Button.grid(padx=2, pady=2, row=6, column=12, sticky='nsew')
+# Repeat_Button = tkinter.Button(
+#     master=window, text="Repeat", command=lambda: repeat_maze())
+# Repeat_Button.config(bg="green", fg="black")
+# Repeat_Button.grid(padx=2, pady=2, row=6, column=12, sticky='nsew')
 
 
 # Turn off screen updates
@@ -423,5 +468,6 @@ while True:
             pen.clear()  # not neat
             commandpen.clear()
             walls = []  # not neat
+            next_level()
             # turtle.Screen().bye()
     window.update()

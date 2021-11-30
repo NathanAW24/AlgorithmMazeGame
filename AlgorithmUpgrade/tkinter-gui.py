@@ -11,12 +11,14 @@ window = tkinter.Tk()
 sisi = 300
 canvas_width = sisi
 canvas_height = sisi
-canvas = tkinter.Canvas(master=window, width=canvas_width, height=canvas_height)
+canvas = tkinter.Canvas(
+    master=window, width=canvas_width, height=canvas_height)
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
 commandscanvas = tkinter.Canvas(master = window, width = sisi, height = 100)
 commandscanvas.grid(padx=2, pady=2, row=15, column=0, rowspan = 10, columnspan=10)
+
 
 class Pen(turtle.RawTurtle):
     def __init__(self):
@@ -107,6 +109,7 @@ class Treasure(turtle.RawTurtle):
         self.goto(2000, 2000)
         self.hideturtle()
 
+
 class CommandPen(turtle.RawTurtle):
     def __init__(self):
         turtle.RawTurtle.__init__(self, commandscanvas)
@@ -189,6 +192,46 @@ level_7 = [
     "0000000"
 ]
 
+level_8 = [
+    "0000000",
+    "0T    0",
+    "00000 0",
+    "0     0",
+    "0 00000",
+    "0    P0",
+    "0000000"
+]
+
+level_9 = [
+    "0000000",
+    "0    T0",
+    "0 00000",
+    "0     0",
+    "00000 0",
+    "0P    0",
+    "0000000"
+]
+
+level_10 = [
+    "000000000",
+    "0P0   0T0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0   0   0",
+    "000000000"
+]
+
+level_11 = [
+    "000000000",
+    "0   0   0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0 0 0 0 0",
+    "0P0   0T0",
+    "000000000"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -197,6 +240,10 @@ levels.append(level_4)
 levels.append(level_5)
 levels.append(level_6)
 levels.append(level_7)
+levels.append(level_8)
+levels.append(level_9)
+levels.append(level_10)
+levels.append(level_11)
 print(levels)
 
 # Add treasures list
@@ -210,6 +257,7 @@ pen = Pen()
 player = Player()
 commandpen = CommandPen()
 
+
 def setup_maze(level):
     for y in range(len(level)):
         for x in range(len(level[y])):
@@ -219,7 +267,7 @@ def setup_maze(level):
 
             # Calculate the screen x,y coordinates
             screen_x = -(canvas_width * 0.25) + (x * 24)
-            
+
             screen_y = (canvas_height*0.25) - (y * 24)
 
             # Check if it is an 0 (representing a wall)
@@ -240,6 +288,7 @@ def setup_maze(level):
 
 
 current_level_idx = 0
+
 
 def show_commands():
     commandpen.goto((-110,0))
@@ -265,10 +314,6 @@ def show_commands():
             commandpen.stamp()
 
         # commandpen.color('white')
-        
-        
-        
-            
 
 
 def execute_commands():
@@ -322,13 +367,13 @@ def execute_commands():
 
     player.commands = []
 
+
 def clear_commands():
     player.commands = []
     show_commands()
 
     commandpen.clear()
     commandpen.color('white')
-
 
 
 def repeat_maze():
@@ -365,10 +410,10 @@ Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
 
 print('the current level main ', current_level_idx)
 
-Board_Button = tkinter.Button(
-    master=window, text="Next Level", command=lambda: next_level())
-Board_Button.config(bg="cyan", fg="black")
-Board_Button.grid(padx=2, pady=2, row=11, column=2, sticky='nsew')
+# Board_Button = tkinter.Button(
+#     master=window, text="Next Level", command=lambda: next_level())
+# Board_Button.config(bg="cyan", fg="black")
+# Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
 
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
@@ -385,11 +430,13 @@ Board_Button = tkinter.Button(
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=12, column=1, sticky='nsew')
 
-Execute_Button = tkinter.Button(master=window, text="Execute commands", command=lambda: execute_commands())
+Execute_Button = tkinter.Button(
+    master=window, text="Execute commands", command=lambda: execute_commands())
 Execute_Button.config(bg="green", fg="black")
 Execute_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
 
-Clear_Button = tkinter.Button(master=window, text="Clear commands", command=lambda: clear_commands())
+Clear_Button = tkinter.Button(
+    master=window, text="Clear commands", command=lambda: clear_commands())
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=2, row=13, column=2, sticky='nsew')
 
@@ -421,5 +468,6 @@ while True:
             pen.clear()  # not neat
             commandpen.clear()
             walls = []  # not neat
+            next_level()
             # turtle.Screen().bye()
     window.update()

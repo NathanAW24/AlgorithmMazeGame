@@ -16,8 +16,9 @@ canvas = tkinter.Canvas(
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
-commandscanvas = tkinter.Canvas(master = window, width = sisi, height = 100)
-commandscanvas.grid(padx=2, pady=2, row=15, column=0, rowspan = 10, columnspan=10)
+commandscanvas = tkinter.Canvas(master=window, width=sisi, height=100)
+commandscanvas.grid(padx=2, pady=2, row=15, column=0,
+                    rowspan=10, columnspan=10)
 
 
 class Pen(turtle.RawTurtle):
@@ -39,7 +40,8 @@ class Player(turtle.RawTurtle):
         self.gold = 0
         # Create commands list
         # placeholder values only, for experimentation
-        self.commands = []
+        self.commands = ['sl', 'f', 'f', 'f', 'tl', 'el', 'f']
+        # test_commands = ['sl','f','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
@@ -84,11 +86,13 @@ class Player(turtle.RawTurtle):
         # self.right(90)
         show_commands()
 
-    def for_loop(self, n=5):
+    def start_loop(self):
         # n is the number of times you want to loop
-        for i in range(n):
+        self.commands.append('sl')
+        show_commands()
 
-            pass
+    def end_loop(self):
+        self.commands.append('el')
         show_commands()
 
     def is_collision(self, other):
@@ -239,6 +243,15 @@ level_11 = [
     "000000000"
 ]
 
+level_12 = [
+    "0000000",
+    "0000  0",
+    "00000 0",
+    "00000 0",
+    "00P   0",
+    "0000000",
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -251,6 +264,7 @@ levels.append(level_8)
 levels.append(level_9)
 levels.append(level_10)
 levels.append(level_11)
+levels.append(level_12)
 print(levels)
 
 # Add treasures list
@@ -294,15 +308,15 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 0
+current_level_idx = 11
 
 
 def show_commands():
-    commandpen.goto((-110,0))
+    commandpen.goto((-110, 0))
     # commandstext.delete('1.0',END)
     # for x in range(len(player.commands)):
-        # commandstext.insert(
-        #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
+    # commandstext.insert(
+    #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
     for i in range(len(player.commands)):
         cp_xcor = commandpen.xcor()
         cp_ycor = commandpen.ycor()
@@ -363,6 +377,11 @@ def execute_commands():
             player.left(90)
         elif x == 'tr':
             player.right(90)
+        elif x == 'sl':
+            sl_idx = player.commands.index(x)
+            el_idx = player.commands.index('el')
+            for i in range(sl_idx+1, el_idx):
+                execute_commands()
         time.sleep(0.2)
 
     # if doesnt reach the end --> show u fail, and repeat ok
@@ -398,7 +417,8 @@ def repeat_maze():
 
 def next_level():
     global current_level_idx, treasures
-    if len(treasures) == 0:  # theres no treasure before the first level is created and after it is collected/destroyed
+    if len(treasures) == 0:
+        # theres no treasure before the first level is created and after it is collected/destroyed
         print('current level idx', current_level_idx, 'len levels', len(levels))
         if current_level_idx < len(levels):
             print('current level idx now', current_level_idx)
@@ -408,6 +428,8 @@ def next_level():
         current_level_idx += 1
         # clear commands
         clear_commands()
+        player.commands = ['sl', 'f', 'f', 'f',
+                           'tl', 'el', 'f']  # COMMENT THIS LATER
 
 
 Play_Button = tkinter.Button(

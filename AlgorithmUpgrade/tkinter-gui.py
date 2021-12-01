@@ -1,6 +1,6 @@
 import tkinter
 from tkinter import ttk
-from tkinter.constants import END
+from tkinter.constants import END, X
 import turtle
 import math
 import time
@@ -40,31 +40,35 @@ class Player(turtle.RawTurtle):
         self.gold = 0
         # Create commands list
         # placeholder values only, for experimentation
-        self.commands = ['sl', 'f', 'f', 'f', 'tl', 'el', 'f']
+        self.commands = []
         # test_commands = ['sl','f','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
-        print(self.commands)
+        print(self.commands)  # comment this later
         show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
         # self.left(90)
+        print(self.commands)
         show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
         # self.right(90)
+        print(self.commands)
         show_commands()
 
     def start_loop(self):
         # n is the number of times you want to loop
         self.commands.append('sl')
+        print(self.commands)
         show_commands()
 
     def end_loop(self):
         self.commands.append('el')
+        print(self.commands)
         show_commands()
 
     def is_collision(self, other):
@@ -217,7 +221,7 @@ level_11 = [
 
 level_12 = [
     "0000000",
-    "0000  0",
+    "0000T 0",
     "00000 0",
     "00000 0",
     "00P   0",
@@ -309,6 +313,55 @@ def show_commands():
         # commandpen.color('white')
 
 
+def loop_func(sl_idx, el_idx):
+    loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
+    # length_loop = len(loop_ls)
+    # update_ls = loop_ls[:]
+
+    # for x in loop_ls:
+    #     update_ls.append(x)
+    #     print(update_ls)
+
+    for x in loop_ls:
+        if x == 'f':
+            # Calculate spot to move to
+            direction = player.heading()
+            print(direction)
+            if (direction == 0):
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            elif (direction == 90):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() + 24
+            elif (direction == 180):
+                move_to_x = player.xcor() - 24
+                move_to_y = player.ycor()
+            elif (direction == 270):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() - 24
+            elif (direction == 360):
+                direction = 0
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            else:
+                print('direction is weird')
+
+            # Check if the space has a wall
+            if(move_to_x, move_to_y) not in walls:
+                player.goto(move_to_x, move_to_y)
+            else:
+                tkinter.messagebox.showinfo("Message", "U hit wall")
+                # repeat
+                repeat_maze()
+                break
+        elif x == 'tl':
+            player.left(90)
+        elif x == 'tr':
+            player.right(90)
+        time.sleep(0.2)
+    pass
+
+
 def execute_commands():
     global treasures
     flag = 0
@@ -350,11 +403,16 @@ def execute_commands():
         elif x == 'tr':
             player.right(90)
         elif x == 'sl':
-            sl_idx = player.commands.index(x)
-            el_idx = player.commands.index('el')
-            for i in range(sl_idx+1, el_idx):
-                execute_commands()
-        time.sleep(0.2)
+            try:
+                sl_idx = player.commands.index(x)
+                el_idx = player.commands.index('el')
+                loop_func(sl_idx, el_idx)
+            except:
+                pass
+                # tkinter.messagebox.showinfo("Message", "you forgot end_loop")
+                # repeat_maze()
+
+    time.sleep(0.2)
 
     # if doesnt reach the end --> show u fail, and repeat ok
     if flag == 0:
@@ -400,8 +458,8 @@ def next_level():
         current_level_idx += 1
         # clear commands
         clear_commands()
-        player.commands = ['sl', 'f', 'f', 'f',
-                           'tl', 'el', 'f']  # COMMENT THIS LATER
+        # player.commands = ['sl', 'f', 'f', 'f',
+        #                    'tl', 'el', 'f']  # COMMENT THIS LATER
 
 
 Play_Button = tkinter.Button(
@@ -418,7 +476,7 @@ print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
-Board_Button.config(bg="blue", fg="black", width = 15)
+Board_Button.config(bg="blue", fg="black", width=15)
 Board_Button.grid(padx=2, pady=2, row=12, column=0, sticky='nsew')
 
 Board_Button = tkinter.Button(
@@ -432,12 +490,13 @@ Board_Button.config(bg="red", fg="black")
 Board_Button.grid(padx=2, pady=2, row=12, column=2, sticky='nsew')
 
 Start_Loop_Button = tkinter.Button(
-    master=window, text="Start Loop", command=player.forward)
+    master=window, text="Start Loop", command=player.start_loop)
 Start_Loop_Button.config(bg="white", fg="black")
-Start_Loop_Button.grid(padx=2, pady=2, row=13, column=0, sticky='nsew')
+Start_Loop_Button.grid(padx=2, pady=2, row=13,
+                       column=0, sticky='nsew')
 
 End_Loop_Button = tkinter.Button(
-    master=window, text="End Loop", command=player.forward)
+    master=window, text="End Loop", command=player.end_loop)
 End_Loop_Button.config(bg="white", fg="black")
 End_Loop_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
 

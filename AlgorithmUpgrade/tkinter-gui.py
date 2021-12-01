@@ -8,7 +8,7 @@ import time
 # create the window
 window = tkinter.Tk()
 
-sisi = 500
+sisi = 300
 canvas_width = sisi
 canvas_height = sisi
 canvas = tkinter.Canvas(
@@ -104,6 +104,12 @@ class CommandPen(turtle.RawTurtle):
         self.shape('triangle')
         self.color('red')
         self.setheading(0)
+
+    def newline(self):
+        print("im doing stuff", commandpen.xcor(), commandpen.ycor())
+        self.goto(-110, self.ycor()-24)
+        print("im doing stuff", commandpen.xcor(), commandpen.ycor())
+        
 
 
 # Create Levels List
@@ -216,7 +222,7 @@ levels.append(level_8)
 levels.append(level_9)
 levels.append(level_10)
 levels.append(level_11)
-print(levels)
+# print(levels)
 
 # Add treasures list
 treasures = []
@@ -263,7 +269,7 @@ current_level_idx = 0
 
 
 def show_commands():
-    commandpen.goto((-110,0))
+    commandpen.goto((-110,30))
     # commandstext.delete('1.0',END)
     # for x in range(len(player.commands)):
         # commandstext.insert(
@@ -271,21 +277,24 @@ def show_commands():
     for i in range(len(player.commands)):
         cp_xcor = commandpen.xcor()
         cp_ycor = commandpen.ycor()
+        
+        print(commandpen.xcor(), commandpen.ycor())
+        if commandpen.xcor() > 50:
+            commandpen.newline()
 
         if player.commands[i] == 'f':
             commandpen.frontstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
         elif player.commands[i] == 'tl':
             commandpen.leftstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
         elif player.commands[i] == 'tr':
             commandpen.rightstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
 
-        # commandpen.color('white')
 
 
 def execute_commands():
@@ -382,11 +391,6 @@ Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
 
 print('the current level main ', current_level_idx)
 
-# Board_Button = tkinter.Button(
-#     master=window, text="Next Level", command=lambda: next_level())
-# Board_Button.config(bg="cyan", fg="black")
-# Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
-
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
 Board_Button.config(bg="blue", fg="black", width = 15)
@@ -422,17 +426,6 @@ Clear_Button = tkinter.Button(
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
 
-# Commands text, will be updated to commands canvas
-# commandstext = tkinter.Text(master=window, width = 20, height = 20)
-# commandstext.grid(padx=2, pady=2, row=3, column=14)
-
-
-# Repeat_Button = tkinter.Button(
-#     master=window, text="Repeat", command=lambda: repeat_maze())
-# Repeat_Button.config(bg="green", fg="black")
-# Repeat_Button.grid(padx=2, pady=2, row=13, column=2, sticky='nsew')
-
-
 # Turn off screen updates
 # window.tracer(0)
 
@@ -441,15 +434,15 @@ while True:
     for treasure in treasures:
         if player.is_collision(treasure):
             tkinter.messagebox.showinfo(
-                "Message", "Congratulations")  # not neat
+                "Message", "Congratulations") 
             player.gold += treasure.gold
             print("Player Gold: {}".format(player.gold))
             treasure.destroy()
             # len(treasures) will always be 1 after the first initiation of 'next level'
             treasures.remove(treasure)
-            pen.clear()  # not neat
+            pen.clear()  
             commandpen.clear()
-            walls = []  # not neat
+            walls = [] 
             next_level()
             # turtle.Screen().bye()
     window.update()

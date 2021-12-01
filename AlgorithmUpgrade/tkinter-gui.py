@@ -43,7 +43,6 @@ class Player(turtle.RawTurtle):
 
     def forward(self):
         self.commands.append('f')
-        print(self.commands)
         show_commands()
 
     def turn_left(self):
@@ -106,9 +105,7 @@ class CommandPen(turtle.RawTurtle):
         self.setheading(0)
 
     def newline(self):
-        print("im doing stuff", commandpen.xcor(), commandpen.ycor())
         self.goto(-110, self.ycor()-24)
-        print("im doing stuff", commandpen.xcor(), commandpen.ycor())
         
 
 
@@ -275,10 +272,6 @@ def show_commands():
         # commandstext.insert(
         #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
     for i in range(len(player.commands)):
-        cp_xcor = commandpen.xcor()
-        cp_ycor = commandpen.ycor()
-        
-        print(commandpen.xcor(), commandpen.ycor())
         if commandpen.xcor() > 50:
             commandpen.newline()
 
@@ -304,7 +297,6 @@ def execute_commands():
         if x == 'f':
             # Calculate spot to move to
             direction = player.heading()
-            print(direction)
             if (direction == 0):
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()

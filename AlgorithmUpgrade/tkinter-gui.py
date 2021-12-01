@@ -84,6 +84,13 @@ class Player(turtle.RawTurtle):
         # self.right(90)
         show_commands()
 
+    def for_loop(self, n=5):
+        # n is the number of times you want to loop
+        for i in range(n):
+
+            pass
+        show_commands()
+
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
         b = self.ycor() - other.ycor()

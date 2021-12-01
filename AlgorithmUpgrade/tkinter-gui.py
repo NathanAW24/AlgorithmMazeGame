@@ -1,14 +1,14 @@
 import tkinter
+from tkinter import ttk
 from tkinter.constants import END
 import turtle
-import tkinter.messagebox
 import math
 import time
 
 # create the window
 window = tkinter.Tk()
 
-sisi = 300
+sisi = 500
 canvas_width = sisi
 canvas_height = sisi
 canvas = tkinter.Canvas(
@@ -45,34 +45,6 @@ class Player(turtle.RawTurtle):
         self.commands.append('f')
         print(self.commands)
         show_commands()
-
-        # # Calculate spot to move to
-        # direction = self.heading()
-        # print(direction)
-        # if (direction == 0):
-        #     move_to_x = self.xcor() + 24
-        #     move_to_y = self.ycor()
-        # elif (direction == 90):
-        #     move_to_x = self.xcor()
-        #     move_to_y = self.ycor() + 24
-        # elif (direction == 180):
-        #     move_to_x = self.xcor() - 24
-        #     move_to_y = self.ycor()
-        # elif (direction == 270):
-        #     move_to_x = self.xcor()
-        #     move_to_y = self.ycor() - 24
-        # elif (direction == 360):
-        #     direction = 0
-        #     move_to_x = self.xcor() + 24
-        #     move_to_y = self.ycor()
-        # else:
-        #     print('direction is weird')
-
-        # # Check if the space has a wall
-        # if(move_to_x, move_to_y) not in walls:
-        #     self.goto(move_to_x, move_to_y)
-        # else:
-        #     tkinter.messagebox.showinfo("Message", "U hit wall")
 
     def turn_left(self):
         self.commands.append('tl')
@@ -417,28 +389,38 @@ print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
-Board_Button.config(bg="blue", fg="black")
+Board_Button.config(bg="blue", fg="black", width = 15)
 Board_Button.grid(padx=2, pady=2, row=12, column=0, sticky='nsew')
-
-Board_Button = tkinter.Button(
-    master=window, text="Turn right", command=player.turn_right)
-Board_Button.config(bg="red", fg="black")
-Board_Button.grid(padx=2, pady=2, row=12, column=2, sticky='nsew')
 
 Board_Button = tkinter.Button(
     master=window, text="Forward", command=player.forward)
 Board_Button.config(bg="yellow", fg="black")
 Board_Button.grid(padx=2, pady=2, row=12, column=1, sticky='nsew')
 
+Board_Button = tkinter.Button(
+    master=window, text="Turn right", command=player.turn_right)
+Board_Button.config(bg="red", fg="black")
+Board_Button.grid(padx=2, pady=2, row=12, column=2, sticky='nsew')
+
+Start_Loop_Button = tkinter.Button(
+    master=window, text="Start Loop", command=player.forward)
+Start_Loop_Button.config(bg="white", fg="black")
+Start_Loop_Button.grid(padx=2, pady=2, row=13, column=0, sticky='nsew')
+
+End_Loop_Button = tkinter.Button(
+    master=window, text="End Loop", command=player.forward)
+End_Loop_Button.config(bg="white", fg="black")
+End_Loop_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
+
 Execute_Button = tkinter.Button(
     master=window, text="Execute commands", command=lambda: execute_commands())
-Execute_Button.config(bg="green", fg="black")
-Execute_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
+Execute_Button.config(bg="green", fg="white")
+Execute_Button.grid(padx=2, pady=2, row=14, column=1, sticky='nsew')
 
 Clear_Button = tkinter.Button(
     master=window, text="Clear commands", command=lambda: clear_commands())
 Clear_Button.config(bg="orange", fg="black")
-Clear_Button.grid(padx=2, pady=2, row=13, column=2, sticky='nsew')
+Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
 
 # Commands text, will be updated to commands canvas
 # commandstext = tkinter.Text(master=window, width = 20, height = 20)

@@ -44,30 +44,30 @@ class Player(turtle.RawTurtle):
 
     def forward(self):
         self.commands.append('f')
-        print(self.commands)  # comment this later
+        # print(self.commands)  # comment this later
         show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
         # self.left(90)
-        print(self.commands)
+        # print(self.commands)
         show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
         # self.right(90)
-        print(self.commands)
+        # print(self.commands)
         show_commands()
 
     def start_loop(self):
         # n is the number of times you want to loop
         self.commands.append('sl')
-        print(self.commands)
+        # print(self.commands)
         show_commands()
 
     def end_loop(self):
         self.commands.append('el')
-        print(self.commands)
+        # print(self.commands)
         show_commands()
 
     def is_collision(self, other):
@@ -269,7 +269,7 @@ levels.append(level_12)
 levels.append(level_13)
 levels.append(level_14)
 levels.append(level_15)
-print(levels)
+# print(levels)
 
 # Add treasures list
 treasures = []
@@ -348,13 +348,13 @@ def loop_func(sl_idx, el_idx):
 
     # for x in loop_ls:
     #     update_ls.append(x)
-    #     print(update_ls)
+    #     # print(update_ls)
 
     for x in loop_ls:
         if x == 'f':
             # Calculate spot to move to
             direction = player.heading()
-            print(direction)
+            # print(direction)
             if (direction == 0):
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
@@ -372,9 +372,9 @@ def loop_func(sl_idx, el_idx):
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
             else:
-                print('direction is weird')
-
-            # Check if the space has a wall
+                # print('direction is weird')
+                pass
+                # Check if the space has a wall
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
@@ -396,7 +396,7 @@ def execute_commands():
         if x == 'f':
             # Calculate spot to move to
             direction = player.heading()
-            print(direction)
+            # print(direction)
             if (direction == 0):
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
@@ -414,9 +414,9 @@ def execute_commands():
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
             else:
-                print('direction is weird')
-
-            # Check if the space has a wall
+                # print('direction is weird')
+                pass
+                # Check if the space has a wall
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
@@ -476,9 +476,10 @@ def next_level():
     global current_level_idx, treasures
     if len(treasures) == 0:
         # theres no treasure before the first level is created and after it is collected/destroyed
-        print('current level idx', current_level_idx, 'len levels', len(levels))
+        # print('current level idx', current_level_idx, 'len levels', len(levels))
         if current_level_idx < len(levels):
-            print('current level idx now', current_level_idx)
+            pass
+            # print('current level idx now', current_level_idx)
         else:
             current_level_idx = 0
         setup_maze(levels[current_level_idx])
@@ -494,7 +495,7 @@ Play_Button = tkinter.Button(
 Play_Button.config(bg="cyan", fg="black")
 Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
 
-print('the current level main ', current_level_idx)
+# print('the current level main ', current_level_idx)
 
 # Board_Button = tkinter.Button(
 #     master=window, text="Next Level", command=lambda: next_level())
@@ -553,16 +554,19 @@ Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
 
 # Main Game Loop
 while True:
-    for treasure in treasures:
-        if player.is_collision(treasure):
-            tkinter.messagebox.showinfo(
-                "Message", "Congratulations")  # not neat
-            treasure.destroy()
-            # len(treasures) will always be 1 after the first initiation of 'next level'
-            treasures.remove(treasure)
-            pen.clear()  # not neat
-            commandpen.clear()
-            walls = []  # not neat
-            next_level()
-            # turtle.Screen().bye()
-    window.update()
+    try:
+        for treasure in treasures:
+            if player.is_collision(treasure):
+                tkinter.messagebox.showinfo(
+                    "Message", "Congratulations")  # not neat
+                treasure.destroy()
+                # len(treasures) will always be 1 after the first initiation of 'next level'
+                treasures.remove(treasure)
+                pen.clear()  # not neat
+                commandpen.clear()
+                walls = []  # not neat
+                next_level()
+                # turtle.Screen().bye()
+        window.update()
+    except:
+        pass

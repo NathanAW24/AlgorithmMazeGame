@@ -37,7 +37,6 @@ class Player(turtle.RawTurtle):
         self.color('red')
         self.penup()
         self.speed(0)
-        self.gold = 0
         # Create commands list
         # placeholder values only, for experimentation
         self.commands = []
@@ -89,7 +88,6 @@ class Treasure(turtle.RawTurtle):
         self.color('gold')
         self.penup()
         self.speed(0)
-        self.gold = 100
         self.goto(x, y)
 
     def destroy(self):
@@ -220,12 +218,39 @@ level_11 = [
 ]
 
 level_12 = [
-    "0000000",
-    "0000T 0",
-    "00000 0",
-    "00000 0",
-    "00P   0",
-    "0000000",
+    "000000",
+    "0000T0",
+    "0000 0",
+    "0000 0",
+    "0P   0",
+    "000000",
+]
+
+level_13 = [
+    "000000",
+    "0T0000",
+    "0 0000",
+    "0 0000",
+    "0   P0",
+    "000000",
+]
+
+level_14 = [
+    "000000",
+    "000T 0",
+    "0000 0",
+    "0000 0",
+    "0P   0",
+    "000000",
+]
+
+level_15 = [
+    "000000",
+    "0 T000",
+    "0 0000",
+    "0 0000",
+    "0   P0",
+    "000000",
 ]
 
 # Add maze to mazes list
@@ -241,6 +266,9 @@ levels.append(level_9)
 levels.append(level_10)
 levels.append(level_11)
 levels.append(level_12)
+levels.append(level_13)
+levels.append(level_14)
+levels.append(level_15)
 print(levels)
 
 # Add treasures list
@@ -284,7 +312,7 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 11
+current_level_idx = 13
 
 
 def show_commands():
@@ -352,7 +380,6 @@ def loop_func(sl_idx, el_idx):
             else:
                 tkinter.messagebox.showinfo("Message", "U hit wall")
                 # repeat
-                repeat_maze()
                 break
         elif x == 'tl':
             player.left(90)
@@ -412,7 +439,7 @@ def execute_commands():
                 # tkinter.messagebox.showinfo("Message", "you forgot end_loop")
                 # repeat_maze()
 
-    time.sleep(0.2)
+        time.sleep(0.2)
 
     # if doesnt reach the end --> show u fail, and repeat ok
     if flag == 0:
@@ -530,8 +557,6 @@ while True:
         if player.is_collision(treasure):
             tkinter.messagebox.showinfo(
                 "Message", "Congratulations")  # not neat
-            player.gold += treasure.gold
-            print("Player Gold: {}".format(player.gold))
             treasure.destroy()
             # len(treasures) will always be 1 after the first initiation of 'next level'
             treasures.remove(treasure)

@@ -8,7 +8,7 @@ import time
 # create the window
 window = tkinter.Tk()
 
-sisi = 500
+sisi = 300
 canvas_width = sisi
 canvas_height = sisi
 canvas = tkinter.Canvas(
@@ -45,30 +45,27 @@ class Player(turtle.RawTurtle):
     def forward(self):
         self.commands.append('f')
         # print(self.commands)  # comment this later
-        show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
         # self.left(90)
         # print(self.commands)
-        show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
         # self.right(90)
         # print(self.commands)
-        show_commands()
+
 
     def start_loop(self):
         # n is the number of times you want to loop
         self.commands.append('sl')
         # print(self.commands)
-        show_commands()
 
     def end_loop(self):
         self.commands.append('el')
         # print(self.commands)
-        show_commands()
+
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -117,6 +114,10 @@ class CommandPen(turtle.RawTurtle):
         self.shape('triangle')
         self.color('red')
         self.setheading(0)
+
+    def newline(self):
+        self.goto(-110, self.ycor()-24)
+        
 
 
 # Create Levels List
@@ -269,7 +270,7 @@ levels.append(level_12)
 levels.append(level_13)
 levels.append(level_14)
 levels.append(level_15)
-# print(levels)
+
 
 # Add treasures list
 treasures = []
@@ -322,23 +323,22 @@ def show_commands():
     # commandstext.insert(
     #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
     for i in range(len(player.commands)):
-        cp_xcor = commandpen.xcor()
-        cp_ycor = commandpen.ycor()
+        if commandpen.xcor() > 50:
+            commandpen.newline()
 
         if player.commands[i] == 'f':
             commandpen.frontstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
         elif player.commands[i] == 'tl':
             commandpen.leftstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
         elif player.commands[i] == 'tr':
             commandpen.rightstamp()
-            commandpen.goto(cp_xcor + 24, cp_ycor)
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
 
-        # commandpen.color('white')
 
 
 def loop_func(sl_idx, el_idx):
@@ -497,11 +497,6 @@ Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
 
 # print('the current level main ', current_level_idx)
 
-# Board_Button = tkinter.Button(
-#     master=window, text="Next Level", command=lambda: next_level())
-# Board_Button.config(bg="cyan", fg="black")
-# Board_Button.grid(padx=2, pady=2, row=1, column=11, sticky='nsew')
-
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
 Board_Button.config(bg="blue", fg="black", width=15)
@@ -537,17 +532,6 @@ Clear_Button = tkinter.Button(
     master=window, text="Clear commands", command=lambda: clear_commands())
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
-
-# Commands text, will be updated to commands canvas
-# commandstext = tkinter.Text(master=window, width = 20, height = 20)
-# commandstext.grid(padx=2, pady=2, row=3, column=14)
-
-
-# Repeat_Button = tkinter.Button(
-#     master=window, text="Repeat", command=lambda: repeat_maze())
-# Repeat_Button.config(bg="green", fg="black")
-# Repeat_Button.grid(padx=2, pady=2, row=13, column=2, sticky='nsew')
-
 
 # Turn off screen updates
 # window.tracer(0)

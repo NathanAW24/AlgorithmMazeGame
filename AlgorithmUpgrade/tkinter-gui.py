@@ -1,6 +1,6 @@
 import tkinter
 from tkinter import ttk
-from tkinter.constants import END
+from tkinter.constants import END, X
 import turtle
 import math
 import time
@@ -16,8 +16,9 @@ canvas = tkinter.Canvas(
 canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
             columnspan=10)
 
-commandscanvas = tkinter.Canvas(master = window, width = sisi, height = 100)
-commandscanvas.grid(padx=2, pady=2, row=15, column=0, rowspan = 10, columnspan=10)
+commandscanvas = tkinter.Canvas(master=window, width=sisi, height=100)
+commandscanvas.grid(padx=2, pady=2, row=15, column=0,
+                    rowspan=10, columnspan=10)
 
 
 class Pen(turtle.RawTurtle):
@@ -36,24 +37,35 @@ class Player(turtle.RawTurtle):
         self.color('red')
         self.penup()
         self.speed(0)
-        self.gold = 0
         # Create commands list
         # placeholder values only, for experimentation
         self.commands = []
+        # test_commands = ['sl','f','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
-        show_commands()
+        # print(self.commands)  # comment this later
 
     def turn_left(self):
         self.commands.append('tl')
         # self.left(90)
-        show_commands()
+        # print(self.commands)
 
     def turn_right(self):
         self.commands.append('tr')
         # self.right(90)
-        show_commands()
+        # print(self.commands)
+
+
+    def start_loop(self):
+        # n is the number of times you want to loop
+        self.commands.append('sl')
+        # print(self.commands)
+
+    def end_loop(self):
+        self.commands.append('el')
+        # print(self.commands)
+
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -73,7 +85,6 @@ class Treasure(turtle.RawTurtle):
         self.color('gold')
         self.penup()
         self.speed(0)
-        self.gold = 100
         self.goto(x, y)
 
     def destroy(self):
@@ -217,6 +228,42 @@ level_11 = [
     "000000000"
 ]
 
+level_12 = [
+    "000000",
+    "0000T0",
+    "0000 0",
+    "0000 0",
+    "0P   0",
+    "000000",
+]
+
+level_13 = [
+    "000000",
+    "0T0000",
+    "0 0000",
+    "0 0000",
+    "0   P0",
+    "000000",
+]
+
+level_14 = [
+    "000000",
+    "000T 0",
+    "0000 0",
+    "0000 0",
+    "0P   0",
+    "000000",
+]
+
+level_15 = [
+    "000000",
+    "0 T000",
+    "0 0000",
+    "0 0000",
+    "0   P0",
+    "000000",
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -229,7 +276,11 @@ levels.append(level_8)
 levels.append(level_9)
 levels.append(level_10)
 levels.append(level_11)
-# print(levels)
+levels.append(level_12)
+levels.append(level_13)
+levels.append(level_14)
+levels.append(level_15)
+
 
 # Add treasures list
 treasures = []
@@ -276,11 +327,11 @@ current_level_idx = 0
 
 
 def show_commands():
-    commandpen.goto((-110,30))
+    commandpen.goto((-110, 0))
     # commandstext.delete('1.0',END)
     # for x in range(len(player.commands)):
-        # commandstext.insert(
-        #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
+    # commandstext.insert(
+    #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
     for i in range(len(player.commands)):
         if commandpen.xcor() > 50:
             commandpen.newline()
@@ -300,13 +351,20 @@ def show_commands():
 
 
 
-def execute_commands():
-    global treasures
-    flag = 0
-    for x in player.commands:
+def loop_func(sl_idx, el_idx):
+    loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
+    # length_loop = len(loop_ls)
+    # update_ls = loop_ls[:]
+
+    # for x in loop_ls:
+    #     update_ls.append(x)
+    #     # print(update_ls)
+
+    for x in loop_ls:
         if x == 'f':
             # Calculate spot to move to
             direction = player.heading()
+            # print(direction)
             if (direction == 0):
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
@@ -324,9 +382,51 @@ def execute_commands():
                 move_to_x = player.xcor() + 24
                 move_to_y = player.ycor()
             else:
-                print('direction is weird')
+                # print('direction is weird')
+                pass
+                # Check if the space has a wall
+            if(move_to_x, move_to_y) not in walls:
+                player.goto(move_to_x, move_to_y)
+            else:
+                tkinter.messagebox.showinfo("Message", "U hit wall")
+                # repeat
+                break
+        elif x == 'tl':
+            player.left(90)
+        elif x == 'tr':
+            player.right(90)
+        time.sleep(0.2)
+    pass
 
-            # Check if the space has a wall
+
+def execute_commands():
+    global treasures
+    flag = 0
+    for x in player.commands:
+        if x == 'f':
+            # Calculate spot to move to
+            direction = player.heading()
+            # print(direction)
+            if (direction == 0):
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            elif (direction == 90):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() + 24
+            elif (direction == 180):
+                move_to_x = player.xcor() - 24
+                move_to_y = player.ycor()
+            elif (direction == 270):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() - 24
+            elif (direction == 360):
+                direction = 0
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            else:
+                # print('direction is weird')
+                pass
+                # Check if the space has a wall
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
@@ -339,6 +439,16 @@ def execute_commands():
             player.left(90)
         elif x == 'tr':
             player.right(90)
+        elif x == 'sl':
+            try:
+                sl_idx = player.commands.index(x)
+                el_idx = player.commands.index('el')
+                loop_func(sl_idx, el_idx)
+            except:
+                pass
+                # tkinter.messagebox.showinfo("Message", "you forgot end_loop")
+                # repeat_maze()
+
         time.sleep(0.2)
 
     # if doesnt reach the end --> show u fail, and repeat ok
@@ -374,16 +484,20 @@ def repeat_maze():
 
 def next_level():
     global current_level_idx, treasures
-    if len(treasures) == 0:  # theres no treasure before the first level is created and after it is collected/destroyed
-        print('current level idx', current_level_idx, 'len levels', len(levels))
+    if len(treasures) == 0:
+        # theres no treasure before the first level is created and after it is collected/destroyed
+        # print('current level idx', current_level_idx, 'len levels', len(levels))
         if current_level_idx < len(levels):
-            print('current level idx now', current_level_idx)
+            pass
+            # print('current level idx now', current_level_idx)
         else:
             current_level_idx = 0
         setup_maze(levels[current_level_idx])
         current_level_idx += 1
         # clear commands
         clear_commands()
+        # player.commands = ['sl', 'f', 'f', 'f',
+        #                    'tl', 'el', 'f']  # COMMENT THIS LATER
 
 
 Play_Button = tkinter.Button(
@@ -391,11 +505,11 @@ Play_Button = tkinter.Button(
 Play_Button.config(bg="cyan", fg="black")
 Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
 
-print('the current level main ', current_level_idx)
+# print('the current level main ', current_level_idx)
 
 Board_Button = tkinter.Button(
     master=window, text="Turn left", command=player.turn_left)
-Board_Button.config(bg="blue", fg="black", width = 15)
+Board_Button.config(bg="blue", fg="black", width=15)
 Board_Button.grid(padx=2, pady=2, row=12, column=0, sticky='nsew')
 
 Board_Button = tkinter.Button(
@@ -409,12 +523,13 @@ Board_Button.config(bg="red", fg="black")
 Board_Button.grid(padx=2, pady=2, row=12, column=2, sticky='nsew')
 
 Start_Loop_Button = tkinter.Button(
-    master=window, text="Start Loop", command=player.forward)
+    master=window, text="Start Loop", command=player.start_loop)
 Start_Loop_Button.config(bg="white", fg="black")
-Start_Loop_Button.grid(padx=2, pady=2, row=13, column=0, sticky='nsew')
+Start_Loop_Button.grid(padx=2, pady=2, row=13,
+                       column=0, sticky='nsew')
 
 End_Loop_Button = tkinter.Button(
-    master=window, text="End Loop", command=player.forward)
+    master=window, text="End Loop", command=player.end_loop)
 End_Loop_Button.config(bg="white", fg="black")
 End_Loop_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
 
@@ -433,18 +548,19 @@ Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
 
 # Main Game Loop
 while True:
-    for treasure in treasures:
-        if player.is_collision(treasure):
-            tkinter.messagebox.showinfo(
-                "Message", "Congratulations") 
-            player.gold += treasure.gold
-            print("Player Gold: {}".format(player.gold))
-            treasure.destroy()
-            # len(treasures) will always be 1 after the first initiation of 'next level'
-            treasures.remove(treasure)
-            pen.clear()  
-            commandpen.clear()
-            walls = [] 
-            next_level()
-            # turtle.Screen().bye()
-    window.update()
+    try:
+        for treasure in treasures:
+            if player.is_collision(treasure):
+                tkinter.messagebox.showinfo(
+                    "Message", "Congratulations")  # not neat
+                treasure.destroy()
+                # len(treasures) will always be 1 after the first initiation of 'next level'
+                treasures.remove(treasure)
+                pen.clear()  # not neat
+                commandpen.clear()
+                walls = []  # not neat
+                next_level()
+                # turtle.Screen().bye()
+        window.update()
+    except:
+        pass

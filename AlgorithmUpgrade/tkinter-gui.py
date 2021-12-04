@@ -59,19 +59,16 @@ class Player(turtle.RawTurtle):
         # print(self.commands)
         show_commands()
 
-
     def start_loop(self):
         # n is the number of times you want to loop
         self.commands.append('sl')
         # print(self.commands)
         show_commands()
 
-
     def end_loop(self):
         self.commands.append('el')
         # print(self.commands)
         show_commands()
-
 
     def is_collision(self, other):
         a = self.xcor() - other.xcor()
@@ -133,7 +130,6 @@ class CommandPen(turtle.RawTurtle):
 
     def newline(self):
         self.goto(-130, self.ycor()-24)
-        
 
 
 # Create Levels List
@@ -270,6 +266,24 @@ level_15 = [
     "000000",
 ]
 
+level_16 = [
+    "000000",
+    "0P0T 0",
+    "0 00 0",
+    "0 00 0",
+    "0    0",
+    "000000",
+]
+
+level_17 = [
+    "000000",
+    "0 T0P0",
+    "0 00 0",
+    "0 00 0",
+    "0    0",
+    "000000",
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -286,7 +300,8 @@ levels.append(level_12)
 levels.append(level_13)
 levels.append(level_14)
 levels.append(level_15)
-
+levels.append(level_16)
+levels.append(level_17)
 
 # Add treasures list
 treasures = []
@@ -329,12 +344,12 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 0
+current_level_idx = 15
 
 
 def show_commands():
     commandpen.goto((-130, 30))
-    
+
     for i in range(len(player.commands)):
         if commandpen.xcor() > 70:
             commandpen.newline()
@@ -359,7 +374,6 @@ def show_commands():
             commandpen.endloopsstamp()
             commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
-
 
 
 def loop_func(sl_idx, el_idx):

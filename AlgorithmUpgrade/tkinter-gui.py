@@ -104,6 +104,16 @@ class CommandPen(turtle.RawTurtle):
         self.color('red')
         self.setheading(0)
 
+    def startloopstamp(self):
+        self.shape('arrow')
+        self.color('red')
+        self.setheading(180)
+
+    def endloopsstamp(self):
+        self.shape('arrow')
+        self.color('red')
+        self.setheading(0)
+
     def newline(self):
         self.goto(-110, self.ycor()-24)
         

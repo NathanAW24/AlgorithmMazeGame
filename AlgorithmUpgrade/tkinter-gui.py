@@ -344,7 +344,7 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 
 
-current_level_idx = 15
+current_level_idx = 0
 
 
 def show_commands():

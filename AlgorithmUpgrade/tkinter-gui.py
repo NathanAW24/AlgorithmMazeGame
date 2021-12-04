@@ -45,26 +45,32 @@ class Player(turtle.RawTurtle):
     def forward(self):
         self.commands.append('f')
         # print(self.commands)  # comment this later
+        show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
         # self.left(90)
         # print(self.commands)
+        show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
         # self.right(90)
         # print(self.commands)
+        show_commands()
 
 
     def start_loop(self):
         # n is the number of times you want to loop
         self.commands.append('sl')
         # print(self.commands)
+        show_commands()
+
 
     def end_loop(self):
         self.commands.append('el')
         # print(self.commands)
+        show_commands()
 
 
     def is_collision(self, other):
@@ -117,16 +123,16 @@ class CommandPen(turtle.RawTurtle):
 
     def startloopstamp(self):
         self.shape('arrow')
-        self.color('red')
+        self.color('black')
         self.setheading(180)
 
     def endloopsstamp(self):
         self.shape('arrow')
-        self.color('red')
+        self.color('black')
         self.setheading(0)
 
     def newline(self):
-        self.goto(-110, self.ycor()-24)
+        self.goto(-130, self.ycor()-24)
         
 
 
@@ -327,13 +333,10 @@ current_level_idx = 0
 
 
 def show_commands():
-    commandpen.goto((-110, 0))
-    # commandstext.delete('1.0',END)
-    # for x in range(len(player.commands)):
-    # commandstext.insert(
-    #     '1.0', player.commands[len(player.commands)-x-1] + '\n')
+    commandpen.goto((-130, 30))
+    
     for i in range(len(player.commands)):
-        if commandpen.xcor() > 50:
+        if commandpen.xcor() > 70:
             commandpen.newline()
 
         if player.commands[i] == 'f':
@@ -346,6 +349,14 @@ def show_commands():
             commandpen.stamp()
         elif player.commands[i] == 'tr':
             commandpen.rightstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'sl':
+            commandpen.startloopstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'el':
+            commandpen.endloopsstamp()
             commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
 

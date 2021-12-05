@@ -33,7 +33,7 @@ class Pen(turtle.RawTurtle):
 class Player(turtle.RawTurtle):
     def __init__(self):
         turtle.RawTurtle.__init__(self, canvas)
-        self.shape()
+        self.shape('turtle')
         self.color('red')
         self.penup()
         self.speed(0)

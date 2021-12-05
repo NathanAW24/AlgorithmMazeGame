@@ -40,7 +40,7 @@ class Player(turtle.RawTurtle):
         # Create commands list
         # placeholder values only, for experimentation
         self.commands = []
-        # test_commands = ['sl','f','f','f','tl','el','f']
+        # test_commands = ['sl','f  ','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
@@ -91,7 +91,7 @@ class Treasure(turtle.RawTurtle):
         self.goto(x, y)
 
     def destroy(self):
-        self.goto(2000, 2000)
+        # self.goto(2000, 2000)
         self.hideturtle()
 
 
@@ -284,6 +284,17 @@ level_17 = [
     "000000",
 ]
 
+win_level = [
+    "0 0      ",
+    "0 0      ",
+    "000      ",
+    "         ",
+    "0 0 0    ",
+    "0 0   000",
+    "000 0 0 0",
+    "0 0 0 0 0"
+]
+
 # Add maze to mazes list
 levels.append(level_1)
 levels.append(level_2)
@@ -302,6 +313,7 @@ levels.append(level_14)
 levels.append(level_15)
 levels.append(level_16)
 levels.append(level_17)
+levels.append(win_level)
 
 # Add treasures list
 treasures = []

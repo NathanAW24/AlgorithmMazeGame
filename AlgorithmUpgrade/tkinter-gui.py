@@ -426,7 +426,7 @@ def loop_func(sl_idx, el_idx):
                 player.goto(move_to_x, move_to_y)
             else:
                 tkinter.messagebox.showinfo(
-                    "You died", "Cause of Death: You faceplanted into a wall. Idiot.")
+                    "You died", "Cause of Death: You faceplanted into a wall.")
                 # repeat
                 break
         elif x == 'tl':
@@ -469,7 +469,7 @@ def execute_commands():
                 player.goto(move_to_x, move_to_y)
             else:
                 tkinter.messagebox.showinfo(
-                    "You died", "Cause of Death: You faceplanted into a wall. Idiot.")
+                    "You died", "Cause of Death: You faceplanted into a wall.")
                 flag = 1
                 # repeat
                 repeat_maze()

@@ -425,7 +425,8 @@ def loop_func(sl_idx, el_idx):
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
-                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall. Idiot.")
+                tkinter.messagebox.showinfo(
+                    "You died", "Cause of Death: You faceplanted into a wall. Idiot.")
                 # repeat
                 break
         elif x == 'tl':
@@ -467,7 +468,8 @@ def execute_commands():
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
-                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall. Idiot.")
+                tkinter.messagebox.showinfo(
+                    "You died", "Cause of Death: You faceplanted into a wall. Idiot.")
                 flag = 1
                 # repeat
                 repeat_maze()
@@ -492,7 +494,8 @@ def execute_commands():
     if flag == 0:
         for treasure in treasures:
             if not player.is_collision(treasure):
-                tkinter.messagebox.showinfo("You died", "Cause of Death: You didn't get to the end of the maze")
+                tkinter.messagebox.showinfo(
+                    "You died", "Cause of Death: You didn't get to the end of the maze")
                 repeat_maze()
 
     player.commands = []

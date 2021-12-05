@@ -33,7 +33,7 @@ class Pen(turtle.RawTurtle):
 class Player(turtle.RawTurtle):
     def __init__(self):
         turtle.RawTurtle.__init__(self, canvas)
-        self.shape()
+        self.shape('turtle')
         self.color('red')
         self.penup()
         self.speed(0)
@@ -101,8 +101,8 @@ class Treasure(turtle.RawTurtle):
 class CommandPen(turtle.RawTurtle):
     def __init__(self):
         turtle.RawTurtle.__init__(self, commandscanvas)
-        self.shape('square')
-        self.color('yellow')
+        self.shape('triangle')
+        self.color('white')
         self.penup()
         self.speed(0)
 
@@ -287,7 +287,6 @@ levels.append(level_13)
 levels.append(level_14)
 levels.append(level_15)
 
-
 # Add treasures list
 treasures = []
 
@@ -399,7 +398,7 @@ def loop_func(sl_idx, el_idx):
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
-                tkinter.messagebox.showinfo("Message", "U hit wall")
+                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall. Idiot.")
                 # repeat
                 break
         elif x == 'tl':
@@ -441,7 +440,7 @@ def execute_commands():
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
-                tkinter.messagebox.showinfo("Message", "U hit wall")
+                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall. Idiot.")
                 flag = 1
                 # repeat
                 repeat_maze()
@@ -466,7 +465,7 @@ def execute_commands():
     if flag == 0:
         for treasure in treasures:
             if not player.is_collision(treasure):
-                tkinter.messagebox.showinfo("Message", "U didnt hit treasure")
+                tkinter.messagebox.showinfo("You died", "Cause of Death: You didn't get to the end of the maze")
                 repeat_maze()
 
     player.commands = []
@@ -563,7 +562,7 @@ while True:
         for treasure in treasures:
             if player.is_collision(treasure):
                 tkinter.messagebox.showinfo(
-                    "Message", "Congratulations")  # not neat
+                    "You beat the level!", "Congratulations! Time for the next level")  # not neat
                 treasure.destroy()
                 # len(treasures) will always be 1 after the first initiation of 'next level'
                 treasures.remove(treasure)

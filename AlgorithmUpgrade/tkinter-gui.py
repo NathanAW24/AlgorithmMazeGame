@@ -425,7 +425,7 @@ def loop_func(sl_idx, el_idx):
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
-                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall. Idiot.")
+                tkinter.messagebox.showinfo("You died", "Cause of Death: You faceplanted into a wall.")
                 # repeat
                 break
         elif x == 'tl':

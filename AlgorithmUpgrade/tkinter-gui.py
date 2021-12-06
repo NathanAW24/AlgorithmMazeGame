@@ -550,10 +550,8 @@ def next_level():
 
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAN JASMINE
 Play_Button = tkinter.Button(
-
     master=window, text="Play!",
-    # lambda needs to be used here as next_level is a function, not a class method
-    command=lambda: next_level())
+    command=next_level)
 Play_Button.config(bg="cyan", fg="black")
 Play_Button.grid(padx=2, pady=2, row=11, column=1,
                  # sticky nsew will ensure that the widget expands to take up all the space allowed
@@ -588,12 +586,12 @@ End_Loop_Button.config(bg="white", fg="black")
 End_Loop_Button.grid(padx=2, pady=2, row=13, column=1, sticky='nsew')
 
 Execute_Button = tkinter.Button(
-    master=window, text="Execute commands", command=lambda: execute_commands())
+    master=window, text="Execute commands", command=execute_commands)
 Execute_Button.config(bg="green", fg="white")
 Execute_Button.grid(padx=2, pady=2, row=14, column=1, sticky='nsew')
 
 Clear_Button = tkinter.Button(
-    master=window, text="Clear commands", command=lambda: clear_commands())
+    master=window, text="Clear commands", command=clear_commands)
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION

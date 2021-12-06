@@ -1,5 +1,4 @@
 import tkinter
-from tkinter import ttk
 from tkinter.constants import END, X
 import turtle
 import math
@@ -210,25 +209,25 @@ level_9 = [
     "0000000"
 ]
 
-level_10 = [
-    "000000000",
-    "0P0   0T0",
-    "0 0 0 0 0",
-    "0 0 0 0 0",
-    "0 0 0 0 0",
-    "0   0   0",
-    "000000000"
-]
+# level_10 = [
+#     "000000000",
+#     "0P0   0T0",
+#     "0 0 0 0 0",
+#     "0 0 0 0 0",
+#     "0 0 0 0 0",
+#     "0   0   0",
+#     "000000000"
+# ]
 
-level_11 = [
-    "000000000",
-    "0   0   0",
-    "0 0 0 0 0",
-    "0 0 0 0 0",
-    "0 0 0 0 0",
-    "0P0   0T0",
-    "000000000"
-]
+# level_11 = [
+#     "000000000",
+#     "0   0   0",
+#     "0 0 0 0 0",
+#     "0 0 0 0 0",
+#     "0 0 0 0 0",
+#     "0P0   0T0",
+#     "000000000"
+# ]
 
 level_12 = [
     "000000",
@@ -305,8 +304,8 @@ levels.append(level_6)
 levels.append(level_7)
 levels.append(level_8)
 levels.append(level_9)
-levels.append(level_10)
-levels.append(level_11)
+# levels.append(level_10)
+# levels.append(level_11)
 levels.append(level_12)
 levels.append(level_13)
 levels.append(level_14)
@@ -538,9 +537,13 @@ def next_level():
 
 
 Play_Button = tkinter.Button(
-    master=window, text="Play!", command=lambda: next_level())
+    master=window, text="Play!", 
+    # lambda needs to be used here as next_level is a function, not a class method
+    command=lambda: next_level())
 Play_Button.config(bg="cyan", fg="black")
-Play_Button.grid(padx=2, pady=2, row=11, column=1, sticky='nsew')
+Play_Button.grid(padx=2, pady=2, row=11, column=1, 
+    # sticky nsew will ensure that the widget expands to take up all the space allowed
+    sticky='nsew')
 
 # print('the current level main ', current_level_idx)
 

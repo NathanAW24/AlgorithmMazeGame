@@ -1,0 +1,1 @@
+If you have python installed, you can directly run it in your compiler/terminal.

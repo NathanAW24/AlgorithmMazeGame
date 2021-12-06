@@ -1,3 +1,4 @@
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 import tkinter
 from tkinter import ttk
 from tkinter.constants import END, X
@@ -19,6 +20,9 @@ canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
 commandscanvas = tkinter.Canvas(master=window, width=sisi, height=100)
 commandscanvas.grid(padx=2, pady=2, row=15, column=0,
                     rowspan=10, columnspan=10)
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NG SUE CHI
 
 
 class Pen(turtle.RawTurtle):
@@ -130,8 +134,10 @@ class CommandPen(turtle.RawTurtle):
 
     def newline(self):
         self.goto(-130, self.ycor()-24)
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### JAMES LEO WEI SHAUN
 # Create Levels List
 levels = []
 
@@ -298,11 +304,16 @@ treasures = []
 
 # Create wall coordinate list
 walls = []
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NG SUE CHI
 # Create class instances
 pen = Pen()
 player = Player()
 commandpen = CommandPen()
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### JAMES LEO WEI SHAUN
 
 
 def setup_maze(level):
@@ -332,8 +343,10 @@ def setup_maze(level):
             # Check treasure
             if character == 'T':
                 treasures.append(Treasure(screen_x, screen_y))
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 current_level_idx = 0
 
 
@@ -364,6 +377,9 @@ def show_commands():
             commandpen.endloopsstamp()
             commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
             commandpen.stamp()
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NATHAN ALDRICH WIRYAWAN
 
 
 def loop_func(sl_idx, el_idx):
@@ -477,6 +493,9 @@ def execute_commands():
                 repeat_maze()
 
     player.commands = []
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 
 
 def clear_commands():
@@ -485,6 +504,9 @@ def clear_commands():
 
     commandpen.clear()
     commandpen.color('white')
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NATHAN ALDRICH WIRYAWAN
 
 
 def repeat_maze():
@@ -498,6 +520,9 @@ def repeat_maze():
         setup_maze(levels[current_level_idx-1])
     clear_commands()
     pass
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 
 
 def next_level():
@@ -516,8 +541,10 @@ def next_level():
         clear_commands()
         # player.commands = ['sl', 'f', 'f', 'f',
         #                    'tl', 'el', 'f']  # COMMENT THIS LATER
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAN JASMINE
 Play_Button = tkinter.Button(
     master=window, text="Play!", command=lambda: next_level())
 Play_Button.config(bg="cyan", fg="black")
@@ -560,10 +587,12 @@ Clear_Button = tkinter.Button(
     master=window, text="Clear commands", command=lambda: clear_commands())
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 # Turn off screen updates
 # window.tracer(0)
 
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 # Main Game Loop
 while True:
     try:
@@ -582,3 +611,4 @@ while True:
         window.update()
     except:
         pass
+# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION

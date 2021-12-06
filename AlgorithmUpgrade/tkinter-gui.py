@@ -215,6 +215,7 @@ level_9 = [
     "0000000"
 ]
 
+
 level_10 = [
     "000000",
     "0000T0",
@@ -418,8 +419,10 @@ def loop_func(sl_idx, el_idx):
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
+
                 tkinter.messagebox.showinfo(
                     "You died", "Cause of Death: You faceplanted into a wall.")
+
                 # repeat
                 break
         elif x == 'tl':
@@ -461,8 +464,10 @@ def execute_commands():
             if(move_to_x, move_to_y) not in walls:
                 player.goto(move_to_x, move_to_y)
             else:
+
                 tkinter.messagebox.showinfo(
                     "You died", "Cause of Death: You faceplanted into a wall.")
+
                 flag = 1
                 # repeat
                 repeat_maze()
@@ -545,6 +550,7 @@ def next_level():
 
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAN JASMINE
 Play_Button = tkinter.Button(
+
     master=window, text="Play!",
     # lambda needs to be used here as next_level is a function, not a class method
     command=lambda: next_level())

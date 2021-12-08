@@ -303,6 +303,9 @@ treasures = []
 
 # Create wall coordinate list
 walls = []
+
+# Specify which level to start with first
+current_level_idx = 0
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NG SUE CHI
@@ -344,94 +347,13 @@ def setup_maze(level):
                 treasures.append(Treasure(screen_x, screen_y))
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
-current_level_idx = 0
-
-
-def show_commands():
-    commandpen.goto((-130, 30))
-
-    for i in range(len(player.commands)):
-        if commandpen.xcor() > 70:
-            commandpen.newline()
-
-        if player.commands[i] == 'f':
-            commandpen.frontstamp()
-            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
-            commandpen.stamp()
-        elif player.commands[i] == 'tl':
-            commandpen.leftstamp()
-            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
-            commandpen.stamp()
-        elif player.commands[i] == 'tr':
-            commandpen.rightstamp()
-            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
-            commandpen.stamp()
-        elif player.commands[i] == 'sl':
-            commandpen.startloopstamp()
-            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
-            commandpen.stamp()
-        elif player.commands[i] == 'el':
-            commandpen.endloopsstamp()
-            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
-            commandpen.stamp()
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NATHAN ALDRICH WIRYAWAN
-
-
-def loop_func(sl_idx, el_idx):
-    loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
-    # length_loop = len(loop_ls)
-    # update_ls = loop_ls[:]
-
-    # for x in loop_ls:
-    #     update_ls.append(x)
-    #     # print(update_ls)
-
-    for x in loop_ls:
-        if x == 'f':
-            # Calculate spot to move to
-            direction = player.heading()
-            # print(direction)
-            if (direction == 0):
-                move_to_x = player.xcor() + 24
-                move_to_y = player.ycor()
-            elif (direction == 90):
-                move_to_x = player.xcor()
-                move_to_y = player.ycor() + 24
-            elif (direction == 180):
-                move_to_x = player.xcor() - 24
-                move_to_y = player.ycor()
-            elif (direction == 270):
-                move_to_x = player.xcor()
-                move_to_y = player.ycor() - 24
-            elif (direction == 360):
-                direction = 0
-                move_to_x = player.xcor() + 24
-                move_to_y = player.ycor()
-            else:
-                # print('direction is weird')
-                pass
-                # Check if the space has a wall
-            if(move_to_x, move_to_y) not in walls:
-                player.goto(move_to_x, move_to_y)
-            else:
-                tkinter.messagebox.showinfo(
-                    "You died", "Cause of Death: You faceplanted into a wall.")
-                # repeat
-                break
-        elif x == 'tl':
-            player.left(90)
-        elif x == 'tr':
-            player.right(90)
-        time.sleep(0.2)
-    pass
 
 
 def execute_commands():
     global treasures
+
+    # represents whether player has collided with wall
     flag = 0
     for x in player.commands:
         if x == 'f':
@@ -492,20 +414,54 @@ def execute_commands():
                 repeat_maze()
 
     player.commands = []
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 
 
-def clear_commands():
-    player.commands = []
-    show_commands()
+def loop_func(sl_idx, el_idx):
+    loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
+    # length_loop = len(loop_ls)
+    # update_ls = loop_ls[:]
 
-    commandpen.clear()
-    commandpen.color('white')
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+    # for x in loop_ls:
+    #     update_ls.append(x)
+    #     # print(update_ls)
 
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NATHAN ALDRICH WIRYAWAN
+    for x in loop_ls:
+        if x == 'f':
+            # Calculate spot to move to
+            direction = player.heading()
+            # print(direction)
+            if (direction == 0):
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            elif (direction == 90):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() + 24
+            elif (direction == 180):
+                move_to_x = player.xcor() - 24
+                move_to_y = player.ycor()
+            elif (direction == 270):
+                move_to_x = player.xcor()
+                move_to_y = player.ycor() - 24
+            elif (direction == 360):
+                direction = 0
+                move_to_x = player.xcor() + 24
+                move_to_y = player.ycor()
+            else:
+                pass
+            # Check if the space has a wall
+            if(move_to_x, move_to_y) not in walls:
+                player.goto(move_to_x, move_to_y)
+            else:
+                tkinter.messagebox.showinfo(
+                    "You died", "Cause of Death: You faceplanted into a wall.")
+                # repeat
+                break
+        elif x == 'tl':
+            player.left(90)
+        elif x == 'tr':
+            player.right(90)
+        time.sleep(0.2)
+    pass
 
 
 def repeat_maze():
@@ -514,8 +470,8 @@ def repeat_maze():
         treasure.destroy()
         # len(treasures) will always be 1 after the first initiation of 'next level'
         treasures.remove(treasure)
-        pen.clear()  # not neat
-        walls = []  # not neat
+        pen.clear()
+        walls = []
         setup_maze(levels[current_level_idx-1])
     clear_commands()
     pass
@@ -524,11 +480,47 @@ def repeat_maze():
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 
 
+def show_commands():
+    commandpen.goto((-130, 30))
+
+    for i in range(len(player.commands)):
+        if commandpen.xcor() > 70:
+            commandpen.newline()
+
+        if player.commands[i] == 'f':
+            commandpen.frontstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'tl':
+            commandpen.leftstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'tr':
+            commandpen.rightstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'sl':
+            commandpen.startloopstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+        elif player.commands[i] == 'el':
+            commandpen.endloopsstamp()
+            commandpen.goto(commandpen.xcor() + 24, commandpen.ycor())
+            commandpen.stamp()
+
+
+def clear_commands():
+    player.commands = []
+    show_commands()
+
+    commandpen.clear()
+    commandpen.color('white')
+
+
 def next_level():
     global current_level_idx, treasures
     if len(treasures) == 0:
         # theres no treasure before the first level is created and after it is collected/destroyed
-        # print('current level idx', current_level_idx, 'len levels', len(levels))
         if current_level_idx < len(levels):
             pass
             # print('current level idx now', current_level_idx)
@@ -538,8 +530,6 @@ def next_level():
         current_level_idx += 1
         # clear commands
         clear_commands()
-        # player.commands = ['sl', 'f', 'f', 'f',
-        #                    'tl', 'el', 'f']  # COMMENT THIS LATER
 # ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
@@ -601,13 +591,13 @@ while True:
         for treasure in treasures:
             if player.is_collision(treasure):
                 tkinter.messagebox.showinfo(
-                    "You beat the level!", "Congratulations! Time for the next level")  # not neat
+                    "You beat the level!", "Congratulations! Time for the next level")
                 treasure.destroy()
                 # len(treasures) will always be 1 after the first initiation of 'next level'
                 treasures.remove(treasure)
-                pen.clear()  # not neat
+                pen.clear()
                 commandpen.clear()
-                walls = []  # not neat
+                walls = []
                 next_level()
                 # turtle.Screen().bye()
         window.update()

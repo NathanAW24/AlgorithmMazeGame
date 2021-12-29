@@ -1,4 +1,3 @@
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 import tkinter
 from tkinter.constants import END, X
 import turtle
@@ -19,9 +18,6 @@ canvas.grid(padx=2, pady=2, row=0, column=0, rowspan=10,
 commandscanvas = tkinter.Canvas(master=window, width=sisi, height=100)
 commandscanvas.grid(padx=2, pady=2, row=15, column=0,
                     rowspan=10, columnspan=10)
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NG SUE CHI
 
 
 class Pen(turtle.RawTurtle):
@@ -40,37 +36,26 @@ class Player(turtle.RawTurtle):
         self.color('red')
         self.penup()
         self.speed(0)
-        # Create commands list
-        # placeholder values only, for experimentation
         self.commands = []
-        # test_commands = ['sl','f  ','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
-        # print(self.commands)  # comment this later
         show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
-        # self.left(90)
-        # print(self.commands)
         show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
-        # self.right(90)
-        # print(self.commands)
         show_commands()
 
     def start_loop(self):
-        # n is the number of times you want to loop
         self.commands.append('sl')
-        # print(self.commands)
         show_commands()
 
     def end_loop(self):
         self.commands.append('el')
-        # print(self.commands)
         show_commands()
 
     def is_collision(self, other):
@@ -94,7 +79,6 @@ class Treasure(turtle.RawTurtle):
         self.goto(x, y)
 
     def destroy(self):
-        # self.goto(2000, 2000)
         self.hideturtle()
 
 
@@ -133,10 +117,8 @@ class CommandPen(turtle.RawTurtle):
 
     def newline(self):
         self.goto(-130, self.ycor()-24)
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### JAMES LEO WEI SHAUN
 # Create Levels List
 levels = []
 
@@ -306,16 +288,11 @@ walls = []
 
 # Specify which level to start with first
 current_level_idx = 0
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NG SUE CHI
 # Create class instances
 pen = Pen()
 player = Player()
 commandpen = CommandPen()
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### JAMES LEO WEI SHAUN
 
 
 def setup_maze(level):
@@ -345,9 +322,6 @@ def setup_maze(level):
             # Check treasure
             if character == 'T':
                 treasures.append(Treasure(screen_x, screen_y))
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### NATHAN ALDRICH WIRYAWAN
 
 
 def execute_commands():
@@ -418,12 +392,6 @@ def execute_commands():
 
 def loop_func(sl_idx, el_idx):
     loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
-    # length_loop = len(loop_ls)
-    # update_ls = loop_ls[:]
-
-    # for x in loop_ls:
-    #     update_ls.append(x)
-    #     # print(update_ls)
 
     for x in loop_ls:
         if x == 'f':
@@ -475,9 +443,6 @@ def repeat_maze():
         setup_maze(levels[current_level_idx-1])
     clear_commands()
     pass
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
-
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
 
 
 def show_commands():
@@ -530,10 +495,8 @@ def next_level():
         current_level_idx += 1
         # clear commands
         clear_commands()
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
 
 
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAN JASMINE
 Play_Button = tkinter.Button(
     master=window, text="Play!",
     command=next_level)
@@ -579,12 +542,12 @@ Clear_Button = tkinter.Button(
     master=window, text="Clear commands", command=clear_commands)
 Clear_Button.config(bg="orange", fg="black")
 Clear_Button.grid(padx=2, pady=10, row=14, column=2, sticky='nsew')
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION
+
 
 # Turn off screen updates
 # window.tracer(0)
 
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### TAY JIA JIUN JOSHUA
+
 # Main Game Loop
 while True:
     try:
@@ -603,4 +566,3 @@ while True:
         window.update()
     except:
         pass
-# ==== ----- == --- === ------ ==== ------ ======== ------ ==== ------ === --- == ----- ==== ### END SECTION

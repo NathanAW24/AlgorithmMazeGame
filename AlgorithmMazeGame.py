@@ -36,37 +36,26 @@ class Player(turtle.RawTurtle):
         self.color('red')
         self.penup()
         self.speed(0)
-        # Create commands list
-        # placeholder values only, for experimentation
         self.commands = []
-        # test_commands = ['sl','f  ','f','f','tl','el','f']
 
     def forward(self):
         self.commands.append('f')
-        # print(self.commands)  # comment this later
         show_commands()
 
     def turn_left(self):
         self.commands.append('tl')
-        # self.left(90)
-        # print(self.commands)
         show_commands()
 
     def turn_right(self):
         self.commands.append('tr')
-        # self.right(90)
-        # print(self.commands)
         show_commands()
 
     def start_loop(self):
-        # n is the number of times you want to loop
         self.commands.append('sl')
-        # print(self.commands)
         show_commands()
 
     def end_loop(self):
         self.commands.append('el')
-        # print(self.commands)
         show_commands()
 
     def is_collision(self, other):
@@ -90,7 +79,6 @@ class Treasure(turtle.RawTurtle):
         self.goto(x, y)
 
     def destroy(self):
-        # self.goto(2000, 2000)
         self.hideturtle()
 
 
@@ -404,12 +392,6 @@ def execute_commands():
 
 def loop_func(sl_idx, el_idx):
     loop_ls = [player.commands[i] for i in range(sl_idx+1, el_idx)]
-    # length_loop = len(loop_ls)
-    # update_ls = loop_ls[:]
-
-    # for x in loop_ls:
-    #     update_ls.append(x)
-    #     # print(update_ls)
 
     for x in loop_ls:
         if x == 'f':

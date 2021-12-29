@@ -1,4 +1,4 @@
-# MazeGame
+# AlgorithmMazeGame
 
 Contributors:
 - Joshua Tay (https://github.com/jaytaykay)

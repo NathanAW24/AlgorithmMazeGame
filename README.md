@@ -4,7 +4,7 @@ Contributors:
 - Joshua Tay (https://github.com/jaytaykay)
 - Nathan Aldrich Wiryawan (https://github.com/NathanAW24)
 
-Python Modules Required
+Python Modules Required:
 - Tkinter
 - Turtle
 - Math
